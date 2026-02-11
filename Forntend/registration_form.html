@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form - FESTRONIX 2.0</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* All your existing CSS remains the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid #ff9966;
+            box-shadow: 0 0 30px rgba(255, 153, 102, 0.3);
+        }
+        
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: #ff9966;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            color: #ffcc33;
+            margin-bottom: 20px;
+        }
+        
+        .event-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(255, 153, 102, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 153, 102, 0.3);
+        }
+        
+        .info-item i {
+            color: #ff9966;
+            font-size: 1.2rem;
+        }
+        
+        .info-item span {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .form-container {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid rgba(255, 153, 102, 0.3);
+            box-shadow: 0 0 40px rgba(255, 153, 102, 0.2);
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 153, 102, 0.3);
+        }
+        
+        .form-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: #ff9966;
+            margin-bottom: 10px;
+        }
+        
+        .form-header p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+        
+        .google-form-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 800px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .google-form-wrapper iframe {
+            width: 100%;
+            height: 800px;
+            border: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .form-instructions {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(255, 153, 102, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 153, 102, 0.3);
+        }
+        
+        .form-instructions h3 {
+            color: #ff9966;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .instructions-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .instructions-list li {
+            padding: 10px 0;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .instructions-list li i {
+            color: #ff9966;
+            font-size: 1.1rem;
+        }
+        
+        .footer-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid rgba(255, 153, 102, 0.3);
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-back {
+            background: transparent;
+            border: 2px solid #ff9966;
+            color: #ff9966;
+        }
+        
+        .btn-back:hover {
+            background: rgba(255, 153, 102, 0.1);
+            transform: translateX(-5px);
+        }
+        
+        .btn-submit {
+            background: linear-gradient(145deg, #ff9966, #ff6600);
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 153, 102, 0.3);
+        }
+        
+        .btn-submit:hover {
+            background: linear-gradient(145deg, #ff6600, #ff9966);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 153, 102, 0.5);
+        }
+        
+        .progress-indicator {
+            margin: 30px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .step-circle.completed {
+            background: linear-gradient(145deg, #ff9966, #ff6600);
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 153, 102, 0.5);
+        }
+        
+        .step-circle.current {
+            background: rgba(255, 153, 102, 0.2);
+            border: 2px solid #ff9966;
+            color: #ff9966;
+        }
+        
+        .step-circle.pending {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: #ccc;
+        }
+        
+        .step-label {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+        
+        .step-line {
+            width: 100px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .step-line.completed {
+            background: linear-gradient(90deg, #ff9966, #ff6600);
+        }
+        
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #ff9966;
+        }
+        
+        .event-description {
+            background: rgba(255, 153, 102, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 153, 102, 0.2);
+            margin: 20px 0;
+            color: #ccc;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 10px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .form-header h2 {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+            
+            .google-form-wrapper iframe {
+                height: 600px;
+            }
+            
+            .event-info {
+                gap: 15px;
+            }
+            
+            .info-item {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+            
+            .footer-actions {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .progress-indicator {
+                flex-wrap: wrap;
+            }
+            
+            .step-line {
+                width: 50px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .google-form-wrapper iframe {
+                height: 500px;
+            }
+            
+            .step-line {
+                width: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="light.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>FESTRONIX 2.0</h1>
+            <p>Official Registration Form</p>
+            <div class="event-info">
+                <div class="info-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span id="eventDate">24-25 March 2026</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span id="eventTime">9:00 AM - 6:00 PM</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span id="eventVenue">Main Auditorium</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Progress Indicator -->
+        <div class="progress-indicator">
+            <div class="progress-step">
+                <div class="step-circle completed">
+                    <i class="fas fa-check"></i>
+                </div>
+                <span class="step-label">Instructions</span>
+            </div>
+            <div class="step-line completed"></div>
+            <div class="progress-step">
+                <div class="step-circle current">2</div>
+                <span class="step-label">Registration</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="progress-step">
+                <div class="step-circle pending">3</div>
+                <span class="step-label">Confirmation</span>
+            </div>
+        </div>
+        
+        <div class="form-container">
+            <div class="form-header">
+                <div class="category-icon" id="categoryIcon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <h2 id="eventTitle">Event Registration</h2>
+                <p id="eventDescription">Fill out the form below to complete your registration</p>
+            </div>
+            
+            <!-- Google Form -->
+            <div class="google-form-wrapper">
+                <iframe id="googleFormIframe" 
+                        src=""
+                        frameborder="0" 
+                        marginheight="0" 
+                        marginwidth="0"
+                        onload="this.style.opacity=1;">
+                    Loading...
+                </iframe>
+            </div>
+            
+            <div class="form-instructions">
+                <h3><i class="fas fa-info-circle"></i> Important Instructions</h3>
+                <ul class="instructions-list">
+                    <li><i class="fas fa-check-circle"></i> Fill all fields marked with * (required)</li>
+                    <li><i class="fas fa-check-circle"></i> Ensure your email address is correct</li>
+                    <li><i class="fas fa-check-circle"></i> Team details are required for team events</li>
+                    <li><i class="fas fa-check-circle"></i> You will receive a confirmation email after submission</li>
+                    <li><i class="fas fa-check-circle"></i> Contact us if you face any issues</li>
+                </ul>
+            </div>
+            
+            <div class="footer-actions">
+                <a href="events.html" class="btn btn-back">
+                    <i class="fas fa-arrow-left"></i> Back to Events
+                </a>
+                <button class="btn btn-submit" onclick="submitForm()">
+                    <i class="fas fa-paper-plane"></i> Submit Form
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Google Form URLs for each event - REPLACE THESE WITH YOUR ACTUAL GOOGLE FORM LINKS
+        const GOOGLE_FORMS = {
+            'Hackathon': 'https://docs.google.com/forms/d/e/1FAIpQLSfIUdRMlLC2VpMfqEBrgBoIB-s7gDsuBVsBx433C-DkOLjVsg/viewform?usp=dialog',
+            'RoboWars Extreme': 'https://docs.google.com/forms/d/e/1FAIpQLSdM59d6bXyXBNK7KMX0bPH4VzuX3I-F_OstzReKe358sfxr6g/viewform?usp=header',
+            'RoboWarsExtreme': 'https://docs.google.com/forms/d/e/YOUR_ROBOWARS_FORM_ID/viewform?embedded=true',
+            'Treasure Hunt': 'https://docs.google.com/forms/d/e/YOUR_TREASURE_HUNT_FORM_ID/viewform?embedded=true',
+            'TreasureHunt': 'https://docs.google.com/forms/d/e/YOUR_TREASURE_HUNT_FORM_ID/viewform?embedded=true',
+            'AI & Machine Learning Workshop': 'https://docs.google.com/forms/d/e/YOUR_AI_WORKSHOP_FORM_ID/viewform?embedded=true',
+            'AIWorkshop': 'https://docs.google.com/forms/d/e/YOUR_AI_WORKSHOP_FORM_ID/viewform?embedded=true',
+            'Line Follower Robot Challenge': 'https://docs.google.com/forms/d/e/YOUR_LINE_FOLLOWER_FORM_ID/viewform?embedded=true',
+            'LineFollowerRobot': 'https://docs.google.com/forms/d/e/YOUR_LINE_FOLLOWER_FORM_ID/viewform?embedded=true',
+            'Digital Doodle Contest': 'https://docs.google.com/forms/d/e/YOUR_DIGITAL_DOODLE_FORM_ID/viewform?embedded=true',
+            'DigitalDoodle': 'https://docs.google.com/forms/d/e/YOUR_DIGITAL_DOODLE_FORM_ID/viewform?embedded=true',
+            'Gaming Prelims': 'https://docs.google.com/forms/d/e/YOUR_GAMING_FORM_ID/viewform?embedded=true',
+            'GamingPrelims': 'https://docs.google.com/forms/d/e/YOUR_GAMING_FORM_ID/viewform?embedded=true',
+            'Tech Quiz Finals': 'https://docs.google.com/forms/d/e/YOUR_TECH_QUIZ_FORM_ID/viewform?embedded=true',
+            'TechQuiz': 'https://docs.google.com/forms/d/e/YOUR_TECH_QUIZ_FORM_ID/viewform?embedded=true',
+            'Circuit Design Competition': 'https://docs.google.com/forms/d/e/YOUR_CIRCUIT_DESIGN_FORM_ID/viewform?embedded=true',
+            'CircuitDesign': 'https://docs.google.com/forms/d/e/YOUR_CIRCUIT_DESIGN_FORM_ID/viewform?embedded=true',
+            'Battle of Bands': 'https://docs.google.com/forms/d/e/YOUR_BATTLE_BANDS_FORM_ID/viewform?embedded=true',
+            'BattleOfBands': 'https://docs.google.com/forms/d/e/YOUR_BATTLE_BANDS_FORM_ID/viewform?embedded=true',
+            'default': 'https://docs.google.com/forms/d/e/1FAIpQLSdyyQ6hfF_mSuO8N4r9Q0KvSn82kVT8vFz2cjOeuKZSYDmsKQ/viewform?embedded=true'
+        };
+        
+        // Event descriptions for each event
+        const EVENT_DESCRIPTIONS = {
+            'Hackathon': '24-hour national level hackathon focusing on AI/ML solutions for real-world problems. Build innovative projects and win exciting prizes.',
+            'RoboWars Extreme': 'Battle of the bots! Design and build your combat robot to defeat opponents in the arena. Test your engineering skills.',
+            'Treasure Hunt': 'Solve clues, find hidden treasures, and race against time in this exciting treasure hunt. Test your problem-solving skills and teamwork.',
+            'AI & Machine Learning Workshop': 'Hands-on workshop on AI and ML fundamentals. Learn from industry experts and build your first machine learning model.',
+            'Line Follower Robot Challenge': 'Design and build autonomous robots that can follow a line path with maximum speed and accuracy.',
+            'Digital Doodle Contest': 'Showcase your digital art skills in this creative competition. Use any digital medium to create stunning artwork.',
+            'Gaming Prelims': 'Qualify for the main gaming tournament. Compete against other gamers in various esports titles.',
+            'Tech Quiz Finals': 'Test your technical knowledge in this challenging quiz competition. Questions from various domains of technology.',
+            'Circuit Design Competition': 'Design and build innovative circuits to solve given problems. Showcase your electronics skills.',
+            'Battle of Bands': 'Showcase your musical talent in this exciting competition. Perform and compete with other bands.',
+            'default': 'Complete the registration form below to participate in this exciting event.'
+        };
+        
+        // Category icons mapping
+        const CATEGORY_ICONS = {
+            'technical': 'fas fa-code',
+            'robotics': 'fas fa-robot',
+            'gaming': 'fas fa-gamepad',
+            'workshop': 'fas fa-chalkboard-teacher',
+            'cultural': 'fas fa-music',
+            'default': 'fas fa-calendar-alt'
+        };
+        
+        // Get URL parameters
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                event: params.get('event') || 'Hackathon',
+                date: params.get('date') || '24-25 March 2026',
+                time: params.get('time') || '9:00 AM - 6:00 PM',
+                venue: params.get('venue') || 'Main Auditorium',
+                category: params.get('category') || 'technical'
+            };
+        }
+        
+        // Update page based on URL parameters
+        function updatePageFromParams() {
+            const params = getUrlParams();
+            
+            // Update event title
+            const eventTitle = params.event;
+            document.getElementById('eventTitle').textContent = eventTitle + ' Registration';
+            
+            // Update event info
+            document.getElementById('eventDate').textContent = params.date;
+            document.getElementById('eventTime').textContent = params.time;
+            document.getElementById('eventVenue').textContent = params.venue;
+            
+            // Update event description
+            const description = EVENT_DESCRIPTIONS[eventTitle] || EVENT_DESCRIPTIONS[eventTitle.replace(/\s+/g, '')] || EVENT_DESCRIPTIONS['default'];
+            document.getElementById('eventDescription').textContent = description;
+            
+            // Update category icon
+            const categoryIcon = CATEGORY_ICONS[params.category] || CATEGORY_ICONS['default'];
+            document.getElementById('categoryIcon').innerHTML = `<i class="${categoryIcon}"></i>`;
+            
+            // Update page title
+            document.title = eventTitle + ' Registration - FESTRONIX 2.0';
+            
+            // Load appropriate Google Form
+            loadGoogleForm(eventTitle);
+        }
+        
+        // Load the appropriate Google Form
+        function loadGoogleForm(eventName) {
+            const iframe = document.getElementById('googleFormIframe');
+            
+            // Get form URL for this event
+            let formUrl = GOOGLE_FORMS[eventName] || 
+                          GOOGLE_FORMS[eventName.replace(/\s+/g, '')] || 
+                          GOOGLE_FORMS['default'];
+            
+            // Set iframe source
+            iframe.src = formUrl;
+            iframe.style.opacity = '0';
+        }
+        
+        // Submit form handler
+        function submitForm() {
+            const iframe = document.getElementById('googleFormIframe');
+            
+            try {
+                // Try to submit the form inside the iframe
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                
+                if (iframeDoc.forms.length > 0) {
+                    const form = iframeDoc.forms[0];
+                    
+                    // Check if all required fields are filled
+                    const requiredInputs = iframeDoc.querySelectorAll('input[required], select[required], textarea[required]');
+                    let allFilled = true;
+                    
+                    requiredInputs.forEach(input => {
+                        if (!input.value.trim()) {
+                            allFilled = false;
+                            input.style.borderColor = '#ff3366';
+                            input.style.boxShadow = '0 0 5px rgba(255, 51, 102, 0.5)';
+                        } else {
+                            input.style.borderColor = '';
+                            input.style.boxShadow = '';
+                        }
+                    });
+                    
+                    if (!allFilled) {
+                        alert('Please fill all required fields marked with *');
+                        return;
+                    }
+                    
+                    form.submit();
+                    
+                    // Show success message
+                    setTimeout(() => {
+                        alert('Registration submitted successfully! You will receive a confirmation email shortly.');
+                        window.location.href = 'events.html?registered=true';
+                    }, 1000);
+                } else {
+                    alert('Form not loaded yet. Please wait a moment and try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('Please submit the form directly within the Google Form iframe. Look for the submit button inside the form.');
+            }
+        }
+        
+        // Show loading message while iframe loads
+        function showFormLoading() {
+            const iframe = document.getElementById('googleFormIframe');
+            iframe.addEventListener('load', function() {
+                this.style.opacity = '1';
+            });
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            updatePageFromParams();
+            showFormLoading();
+        });
+        
+        // Handle iframe load
+        document.getElementById('googleFormIframe').addEventListener('load', function() {
+            this.style.opacity = '1';
+        });
+        
+        // Handle beforeunload to show loading state
+        window.addEventListener('beforeunload', function() {
+            document.body.style.cursor = 'wait';
+        });
+    </script>
+</body>
+</html>

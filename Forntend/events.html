@@ -1,0 +1,3606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FESTRONIX2.0 - Events & Competitions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ================= GLOBAL STYLES ================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: #000;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
+            touch-action: pan-y;
+            color: white;
+            cursor: none;
+            font-size: 0.95rem;
+        }
+
+        /* ================= VIDEO BACKGROUND ================= */
+        .video-background {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: -2; 
+            overflow: hidden;
+        }
+        .video-background video {
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            min-width: 100%; 
+            min-height: 100%;
+            width: auto; 
+            height: auto; 
+            transform: translate(-50%, -50%); 
+            object-fit: cover; 
+            opacity: 0.4;
+        }
+        .video-overlay {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.8) 100%);
+        }
+
+        .glass-overlay {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+            backdrop-filter: blur(5px); 
+            z-index: -1;
+        }
+
+        /* ================= CUSTOM CURSOR ================= */
+        .cursor-dot, .cursor-outline {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            transform: translate(-50%, -50%);
+            border-radius: 50%; 
+            z-index: 9999; 
+            pointer-events: none;
+        }
+        .cursor-dot { 
+            width: 8px; 
+            height: 8px; 
+            background-color: #ffcc33; 
+        }
+        .cursor-outline {
+            width: 40px; 
+            height: 40px; 
+            border: 2px solid rgba(255, 71, 51, 0.8);
+            transition: width 0.2s, height 0.2s; 
+        }
+        @media (hover: none) and (pointer: coarse) { 
+            .cursor-dot, .cursor-outline { display: none; } 
+            body { cursor: auto; } 
+        }
+
+        /* ================= STICKY NAVIGATION ================= */
+        .et-hero-tabs {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 70px;
+            position: relative;
+            background: transparent;
+            text-align: center;
+            padding: 0;
+            overflow: visible;
+            z-index: 100;
+        }
+
+        .et-hero-tabs-container {
+            display: flex;
+            flex-direction: row;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #ff4733;
+            -webkit-backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .et-hero-tab {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            color: #ffffff;
+            letter-spacing: 0.1rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            padding: 0 5px;
+            min-height: 70px;
+            white-space: nowrap;
+        }
+
+        .et-hero-tab:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: #ff4733;
+            transition: all 0.3s ease;
+        }
+
+        .et-hero-tab:hover {
+            color: #ffcc33;
+            background: rgba(255, 71, 51, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .et-hero-tab:hover:before {
+            width: 80%;
+        }
+
+        .et-hero-tab i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        .et-hero-tab-slider {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 3px;
+            background: #ff4733;
+            transition: left 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 71, 51, 0.8);
+            z-index: 1;
+        }
+
+        .et-hero-tab.active {
+            color: #ffcc33 !important;
+            background: rgba(255, 71, 51, 0.25) !important;
+        }
+        .et-hero-tab.active:before {
+            width: 80% !important;
+        }
+
+        /* ================= USER AUTHENTICATION ================= */
+        .user-auth-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            flex: 0.5;
+        }
+
+        .user-auth-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 71, 51, 0.3);
+            color: white;
+            letter-spacing: 0.1rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            padding: 0 15px;
+            min-height: 70px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            min-width: 120px;
+        }
+
+        .user-auth-btn:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: #ff4733;
+            transition: all 0.3s ease;
+        }
+
+        .user-auth-btn:hover {
+            color: #ffcc33;
+            background: rgba(255, 71, 51, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .user-auth-btn:hover:before {
+            width: 80%;
+        }
+
+        .user-auth-btn i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* ================= MOBILE NAVIGATION ================= */
+        .mobile-menu-btn {
+            position: fixed; 
+            top: 15px; 
+            right: 15px; 
+            width: 45px; 
+            height: 45px;
+            background: transparent;
+            border-radius: 50%; 
+            display: none;
+            align-items: center; 
+            justify-content: center; 
+            z-index: 2001; 
+            cursor: pointer;
+            border: 1px solid rgba(255, 204, 51, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        .mobile-menu-btn:hover {
+            background: transparent;
+            transform: scale(1.05);
+            box-shadow: 0 3px 15px rgba(255, 71, 51, 0.3);
+        }
+        .mobile-menu-btn i { 
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .mobile-nav-overlay {
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95); 
+            z-index: 2000; 
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+        .mobile-nav-overlay.active { display: block; }
+        
+        .mobile-nav-container {
+            position: absolute; 
+            top: 0; 
+            right: 0; 
+            width: 85%; 
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            overflow-y: auto; 
+            border-left: 2px solid #ff4733;
+            transform: translateX(100%); 
+            animation: slideIn 0.4s ease forwards;
+        }
+        @keyframes slideIn { 
+            to { transform: translateX(0); } 
+        }
+        
+        .mobile-nav-header { 
+            padding: 25px 20px; 
+            border-bottom: 1px solid rgba(255, 71, 51, 0.3); 
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .mobile-user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .mobile-user-icon {
+            font-size: 2.5rem;
+            color: #ff9966;
+        }
+        
+        .mobile-user-details h4 {
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 3px;
+        }
+        
+        .mobile-user-details p {
+            color: white;
+            font-size: 0.8rem;
+        }
+        
+        .mobile-close-btn { 
+            background: none; 
+            border: none; 
+            color: #ffcc33; 
+            font-size: 1.5rem; 
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .mobile-nav-menu { 
+            padding: 20px; 
+        }
+        .mobile-nav-item { 
+            display: flex; 
+            align-items: center; 
+            padding: 15px; 
+            color: white; 
+            text-decoration: none; 
+            border-bottom: 1px solid rgba(255,255,255,0.1); 
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+        }
+        
+        .mobile-nav-item:hover {
+            background: rgba(255, 71, 51, 0.1);
+            padding-left: 25px;
+        }
+        
+        .mobile-nav-item i { 
+            margin-right: 15px; 
+            color: #ff9966; 
+        }
+        
+        .mobile-nav-item.active {
+            color: #ffcc33;
+            background: rgba(255, 71, 51, 0.15);
+        }
+        /* Mobile Auth Buttons */
+        .mobile-auth-buttons { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            margin-top: 20px;
+            padding: 0 15px;
+        }
+
+        .mobile-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid rgba(255, 71, 51, 0.6);
+            font-size: 1rem;
+            width: 100%;
+            background: rgba(255, 71, 51, 0.2);
+            color: #ff9966;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .mobile-login-btn:hover {
+            background: rgba(255, 71, 51, 0.3);
+            color: #ffcc33;
+            border-color: #ff4733;
+            transform: translateY(-2px);
+        }
+
+        .mobile-signup-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid transparent;
+            font-size: 1rem;
+            width: 100%;
+            background: linear-gradient(135deg, #ff4733, #ff9966);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 71, 51, 0.3);
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .mobile-signup-btn:hover {
+            background: linear-gradient(135deg, #ff3366, #ffcc33);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 71, 51, 0.5);
+        }
+
+        .mobile-profile-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid rgba(255, 204, 51, 0.5);
+            font-size: 1rem;
+            width: 100%;
+            background: rgba(255, 204, 51, 0.15);
+            color: #ffcc33;
+            transition: all 0.3s ease;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .mobile-profile-btn:hover {
+            background: rgba(255, 204, 51, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ================= MAIN CONTENT ================= */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            margin-top: 80px;
+            padding: 20px;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff4733, #ffcc33, #ff4733);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1001;
+            transition: transform 0.1s ease;
+        }
+
+        /* ================= EVENTS HERO ================= */
+        .events-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 60px 20px;
+            overflow: hidden;
+        }
+        
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 8vw, 4rem);
+            font-weight: 900;
+            color: #ff9966;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255, 153, 102, 0.5);
+        }
+        
+        .hero-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            color: #fff;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        /* ================= EVENT FILTERS ================= */
+        .event-filters {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 1200px;
+            border: 1px solid rgba(255, 153, 102, 0.3);
+        }
+        
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .filter-btn {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 153, 102, 0.3);
+            border-radius: 30px;
+            color: #ccc;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(145deg, #ff9966, #ff6600);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 153, 102, 0.3);
+            border-color: transparent;
+        }
+        
+        .filter-btn.active {
+            box-shadow: 0 0 20px rgba(255, 153, 102, 0.5);
+        }
+
+        /* ================= CATEGORY HEADINGS ================= */
+        .category-heading {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: #ff9966;
+            margin: 60px auto 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            padding-bottom: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .category-heading::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ff9966, transparent);
+        }
+
+        /* ================= EVENTS GRID ================= */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .event-card {
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 153, 102, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            border-color: rgba(255, 153, 102, 0.6);
+            box-shadow: 0 20px 40px rgba(255, 153, 102, 0.2);
+        }
+        
+        .event-card.featured {
+            border: 2px solid #ff9966;
+            box-shadow: 0 0 30px rgba(255, 153, 102, 0.3);
+        }
+        
+        .event-card.featured::before {
+            content: 'FEATURED';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: linear-gradient(145deg, #ff9966, #ff6600);
+            color: white;
+            padding: 5px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            transform: rotate(45deg);
+            z-index: 2;
+            letter-spacing: 1px;
+        }
+        
+        .event-header {
+            padding: 25px 25px 15px;
+            position: relative;
+        }
+        
+        .event-category {
+            display: inline-block;
+            padding: 6px 15px;
+            background: linear-gradient(145deg, #0066cc, #0052a3);
+            color: white;
+            border-radius: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .event-category.technical { background: linear-gradient(145deg, #ff6600, #cc5200); }
+        .event-category.management { background: linear-gradient(145deg, #009933, #006622); }
+        .event-category.robotics { background: linear-gradient(145deg, #0066cc, #004080); }
+        .event-category.gaming { background: linear-gradient(145deg, #9900cc, #660099); }
+        
+        .event-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        
+        .event-datetime {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .datetime-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ff9966;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        /* Countdown Timer */
+        .event-countdown {
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 25px 0;
+            border: 1px solid rgba(255, 153, 102, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .countdown-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .countdown-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            color: #ff9966;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .countdown-status {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+        
+        .countdown-display {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            text-align: center;
+        }
+        
+        .countdown-unit {
+            background: rgba(255, 153, 102, 0.1);
+            border-radius: 8px;
+            padding: 10px 5px;
+            border: 1px solid rgba(255, 153, 102, 0.2);
+        }
+        
+        .countdown-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: #fff;
+            display: block;
+            line-height: 1;
+            margin-bottom: 5px;
+        }
+        
+        .countdown-label-small {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.7rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .event-content {
+            padding: 0 25px 20px;
+        }
+        
+        .event-description {
+            color: #ccc;
+            font-family: 'Rajdhani', sans-serif;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .event-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 153, 102, 0.2);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: #ff9966;
+            display: block;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.8rem;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        
+        .event-footer {
+            padding: 20px 25px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 153, 102, 0.2);
+        }
+
+        /* 3D Event Buttons */
+        .event-btn {
+            position: relative;
+            padding: 12px 25px;
+            background: linear-gradient(145deg, #ff6600, #cc5200);
+            background-color: #000;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 6px 0 0 #993d00,
+                0 10px 20px rgba(255, 102, 0, 0.3),
+                inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        
+        .event-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(145deg, #ff8533, #ff6600);
+            border-radius: 10px;
+            z-index: -1;
+            transform: translateZ(-5px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .event-btn:hover {
+            transform: translateY(-3px) translateZ(8px);
+            box-shadow: 
+                0 8px 0 0 #993d00,
+                0 15px 30px rgba(255, 102, 0, 0.4),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3);
+        }
+        
+        .event-btn:active {
+            transform: translateY(2px) translateZ(4px);
+            box-shadow: 
+                0 3px 0 0 #993d00,
+                0 5px 15px rgba(255, 102, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .event-btn:hover::before {
+            opacity: 1;
+        }
+        
+        .event-btn.outline {
+            background: transparent;
+            border: 2px solid #ff9966;
+            color: #ff9966;
+            box-shadow: none;
+        }
+        
+        .event-btn.outline:hover {
+            background: linear-gradient(145deg, #ff9966, #ff6600);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* ================= INSTRUCTION MODAL STYLES ================= */
+        .instruction-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10002;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .instruction-modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .instruction-content {
+            background: linear-gradient(145deg, rgba(0, 0, 0, 0.9), rgba(20, 20, 30, 0.95));
+            border-radius: 20px;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 2px solid #ff9966;
+            box-shadow: 0 0 50px rgba(255, 153, 102, 0.3);
+            position: relative;
+        }
+
+        .instruction-header {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255, 153, 102, 0.3);
+            background: linear-gradient(90deg, rgba(255, 153, 102, 0.1), rgba(0, 102, 204, 0.1));
+        }
+
+        .instruction-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            color: #ff9966;
+            margin-bottom: 10px;
+        }
+
+        .instruction-body {
+            padding: 25px;
+        }
+
+        .instructions-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .instructions-list li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: rgba(255, 153, 102, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid #ff9966;
+            font-family: 'Rajdhani', sans-serif;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .important-note {
+            background: rgba(255, 51, 102, 0.1);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .checkbox-container {
+            margin: 25px 0;
+            padding: 15px;
+            background: rgba(255, 153, 102, 0.05);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 153, 102, 0.2);
+        }
+
+        .custom-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .custom-checkbox input {
+            display: none;
+        }
+
+        .checkmark {
+            width: 22px;
+            height: 22px;
+            border: 2px solid #ff9966;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .custom-checkbox input:checked + .checkmark {
+            background: #ff9966;
+            border-color: #ff9966;
+        }
+
+        .custom-checkbox input:checked + .checkmark::after {
+            content: '✓';
+            color: #000;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .instruction-footer {
+            padding: 20px 25px;
+            border-top: 1px solid rgba(255, 153, 102, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid #ff9966;
+            border-radius: 8px;
+            color: #ff9966;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 153, 102, 0.1);
+        }
+
+        .next-btn {
+            padding: 10px 25px;
+            background: linear-gradient(145deg, #666, #333);
+            border: none;
+            border-radius: 8px;
+            color: #777;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            cursor: not-allowed;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .next-btn.active {
+            background: linear-gradient(145deg, #ff9966, #ff6600);
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 153, 102, 0.4);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 71, 51, 0.2);
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            color: #ff9966;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1;
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 71, 51, 0.4);
+            transform: rotate(90deg);
+        }
+
+        /* ================= PRIZE SECTION ================= */
+        .prize-section {
+            text-align: center;
+            padding: 80px 20px;
+            background: linear-gradient(135deg, rgba(255, 153, 102, 0.1), rgba(0, 102, 204, 0.1));
+            border-top: 3px solid #ff9966;
+            border-bottom: 3px solid #ff9966;
+            margin: 60px 0;
+        }
+        
+        .prize-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 50px auto 0;
+        }
+        
+        .prize-card {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 20px;
+            border: 2px solid;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .prize-card:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .prize-card.gold {
+            border-color: #FFD700;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .prize-card.silver {
+            border-color: #C0C0C0;
+            box-shadow: 0 0 30px rgba(192, 192, 192, 0.3);
+        }
+        
+        .prize-card.bronze {
+            border-color: #CD7F32;
+            box-shadow: 0 0 30px rgba(205, 127, 50, 0.3);
+        }
+        
+        .prize-medal {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        .prize-card.gold .prize-medal { color: #FFD700; }
+        .prize-card.silver .prize-medal { color: #C0C0C0; }
+        .prize-card.bronze .prize-medal { color: #CD7F32; }
+        
+        .prize-amount {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: #fff;
+            margin: 15px 0;
+        }
+        
+        .prize-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            color: #ff9966;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ================= SCHEDULE SECTION ================= */
+        .schedule-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: #ff9966;
+            margin-bottom: 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .schedule-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .schedule-tab {
+            padding: 12px 20px;
+            background: #222;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+        }
+        .schedule-tab.active {
+            background: #ff6600;
+            border-color: #ff6600;
+        }
+        
+        .time-slot {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 20px;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        /* ================= FOOTER ================= */
+        .footer-3d {
+            background: rgba(0,0,0,0.9);
+            padding: 40px 20px 20px;
+            border-top: 2px solid #ff4733;
+            position: relative;
+            z-index: 3;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        .college-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .college-logo {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .college-name {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffcc33;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .footer-tagline {
+            color: #ff9966;
+            font-size: 1rem;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        .footer-social h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: #ffcc33;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 71, 51, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffcc33;
+            font-size: 1.2rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            background: rgba(255, 71, 51, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 71, 51, 0.3);
+        }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 71, 51, 0.3);
+            font-size: 0.8rem;
+            color: #888;
+        }
+        .footer-legacy {
+            color: #ffcc33;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* ================= BACK TO TOP ================= */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff4733, #ff9966);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 71, 51, 0.5);
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(255, 71, 51, 0.8);
+        }
+
+        /* ================= RESPONSIVE DESIGN ================= */
+        @media (max-width: 991px) {
+            .et-hero-tabs-container {
+                display: none !important;
+            }
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .events-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            .time-slot {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            .events-grid {
+                grid-template-columns: 1fr;
+                padding: 10px;
+            }
+            .filter-buttons {
+                gap: 10px;
+            }
+            .filter-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+            .event-footer {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+            .event-btn {
+                justify-content: center;
+            }
+            .prize-grid {
+                grid-template-columns: 1fr;
+            }
+            .schedule-tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            .schedule-tab {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+            .main-content {
+                margin-top: 70px;
+            }
+            .countdown-display {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+            .countdown-unit {
+                padding: 8px 4px;
+            }
+            .countdown-value {
+                font-size: 1.2rem;
+            }
+            .category-heading {
+                font-size: 2rem;
+                margin: 40px auto 30px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            .event-title {
+                font-size: 1.5rem;
+            }
+            .event-datetime {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .event-stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .prize-card {
+                padding: 30px 15px;
+            }
+            .prize-amount {
+                font-size: 2rem;
+            }
+            .countdown-value {
+                font-size: 1rem;
+            }
+            .countdown-label-small {
+                font-size: 0.6rem;
+            }
+            .main-content {
+                margin-top: 140px;
+            }
+            .instruction-content {
+                max-width: 95%;
+                height: 85vh;
+            }
+            .instruction-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .back-btn,
+            .next-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .category-heading {
+                font-size: 1.8rem;
+                margin: 30px auto 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="light.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+    
+    <div class="glass-overlay"></div>
+    
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+    
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator"></div>
+
+    <!-- Updated Sticky Navigation -->
+    <section class="et-hero-tabs" id="hero-section">
+        <!-- Sticky Navigation -->
+        <div class="et-hero-tabs-container">
+            <a class="et-hero-tab" href="index.html">
+                <i class="fas fa-home"></i> <span>Home</span>
+            </a>
+            <a class="et-hero-tab" href="previous.html">
+                <i class="fas fa-history"></i> <span>Previous</span>
+            </a>
+            <a class="et-hero-tab active" href="events.html">
+                <i class="fas fa-calendar-alt"></i> <span>Events</span>
+            </a>
+            <a class="et-hero-tab" href="gallery.html">
+                <i class="fas fa-images"></i> <span>Gallery</span>
+            </a>
+            <a class="et-hero-tab" href="sponsors.html">
+                <i class="fas fa-handshake"></i> <span>Sponsors</span>
+            </a>
+            <a class="et-hero-tab" href="about.html">
+                <i class="fas fa-info-circle"></i> <span>About</span>
+            </a>
+            <a class="et-hero-tab" href="team.html">
+                <i class="fas fa-users"></i> <span>Team</span>
+            </a>
+            <a class="et-hero-tab" href="contact.html">
+                <i class="fas fa-envelope"></i> <span>Contact</span>
+            </a>
+            <!-- User Authentication Container -->
+            <div class="user-auth-container" id="userAuthContainer">
+                <!-- User authentication button will be injected here -->
+            </div>
+            <span class="et-hero-tab-slider"></span>
+        </div>
+    </section>
+
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-container">
+            <div class="mobile-nav-header">
+                <div class="mobile-user-info">
+                    <div class="mobile-user-icon"><i class="fas fa-user-circle"></i></div>
+                    <div class="mobile-user-details">
+                        <h4 id="mobileUserName">Guest</h4>
+                        <p id="mobileUserEmail">Not logged in</p>
+                    </div>
+                </div>
+                <button class="mobile-close-btn" id="mobileCloseBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="mobile-nav-menu">
+                <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i> <span>Home</span></a>
+                <a href="previous.html" class="mobile-nav-item"><i class="fas fa-history"></i> <span>Previous</span></a>
+                <a href="events.html" class="mobile-nav-item active"><i class="fas fa-calendar-alt"></i> <span>Events</span></a>
+                <a href="gallery.html" class="mobile-nav-item"><i class="fas fa-images"></i> <span>Gallery</span></a>
+                <a href="sponsors.html" class="mobile-nav-item"><i class="fas fa-handshake"></i> <span>Sponsors</span></a>
+                <a href="about.html" class="mobile-nav-item"><i class="fas fa-info-circle"></i> <span>About</span></a>
+                <a href="team.html" class="mobile-nav-item"><i class="fas fa-users"></i> <span>Team</span></a>
+                <a href="contact.html" class="mobile-nav-item"><i class="fas fa-envelope"></i> <span>Contact</span></a>
+                <div class="mobile-auth-buttons" id="mobileAuthButtons"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Instruction Modal -->
+    <div class="instruction-modal" id="instructionModal">
+        <div class="instruction-content">
+            <button class="close-modal" id="closeInstructionModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="instruction-header">
+                <h2 class="instruction-title" id="instructionEventTitle">Event Instructions</h2>
+                <div style="color: #ffcc33; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="instructionEventSubtitle">Please read all instructions carefully before proceeding</span>
+                </div>
+            </div>
+            <div class="instruction-body">
+                <div id="eventSpecificInstructions">
+                    <!-- Dynamic instructions will be inserted here -->
+                </div>
+                <div class="important-note">
+                    <h4 style="color: #ff3366; font-family: 'Rajdhani', sans-serif; margin-bottom: 8px;">
+                        <i class="fas fa-exclamation-triangle"></i> Important Note
+                    </h4>
+                    <p style="color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 0.9rem; line-height: 1.4;">
+                        Registration fee is non-refundable. Once registered, you'll receive a confirmation email with further details. Ensure all information provided is accurate.
+                    </p>
+                </div>
+                <div class="checkbox-container">
+                    <label class="custom-checkbox">
+                        <input type="checkbox" id="agreeCheckbox">
+                        <span class="checkmark"></span>
+                        <span style="font-family: 'Rajdhani', sans-serif; color: #fff; font-size: 0.95rem;">
+                            I have read and understood all the instructions, terms, and conditions for this event. 
+                            I agree to abide by all the rules and regulations of FESTRONIX 2.0.
+                        </span>
+                    </label>
+                </div>
+            </div>
+            <div class="instruction-footer">
+                <button class="back-btn" id="backFromInstructions">
+                    <i class="fas fa-arrow-left"></i> Back to Events
+                </button>
+                <button class="next-btn" id="nextToRegistration">
+                    Proceed to Registration <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Events Hero -->
+        <section class="events-hero">
+            <div class="hero-content">
+                <h1 class="hero-title">EVENTS & COMPETITIONS</h1>
+                <p class="hero-subtitle">
+                    Dive into a world of innovation, creativity, and competition. FESTRONIX 2.0 brings you 50+ thrilling events 
+                    across multiple domains. From technical hackathons to cultural extravaganzas, there's something for everyone!
+                </p>
+                <div style="margin-top: 30px;">
+                    <a href="#events-container" class="event-btn"><i class="fas fa-arrow-down"></i> Explore Events</a>
+                    <a href="#schedule" class="event-btn outline"><i class="fas fa-clock"></i> View Schedule</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Event Filters -->
+        <section class="event-filters">
+            <h3 style="text-align: center; color: #ff9966; font-family: 'Orbitron', sans-serif; margin-bottom: 20px;">
+                <i class="fas fa-filter"></i> Filter Events by Category
+            </h3>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All Events</button>
+                <button class="filter-btn" data-filter="technical">Technical & Coding</button>
+                <button class="filter-btn" data-filter="management">Management & Strategy</button>
+                <button class="filter-btn" data-filter="robotics">Robotics & Engineering</button>
+                <button class="filter-btn" data-filter="gaming">Games & Sports</button>
+            </div>
+        </section>
+
+        <!-- Events Container -->
+        <section id="events-container" style="max-width: 1200px; margin: 0 auto;">
+
+            <!-- Technical & Coding Events -->
+            <h2 class="category-heading">Technical & Coding Events</h2>
+            <div class="events-grid" id="technical-events">
+                <!-- Hackathon -->
+                <div class="event-card featured" data-category="technical" 
+                    data-event-date="2026-02-26T09:00:00" 
+                    data-event-name="Hackathon"
+                    data-event-category="technical">
+                    <div class="event-header">
+                        <span class="event-category technical">Featured Event</span>
+                        <h3 class="event-title">Hackathon</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26-27 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 9:00 AM - 6:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-Hackathon">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-Hackathon">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-Hackathon">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-Hackathon">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-Hackathon">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-Hackathon">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            24-hour national level hackathon focusing on AI/ML solutions for real-world problems. 
+                            Build innovative projects and win exciting prizes.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">6 (1 Girl)</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹501</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Main Auditorium
+                        </span>
+                        <button class="event-btn register-btn" data-event="Hackathon" data-category="technical" data-fee="501">
+                            <i class="fas fa-user-plus"></i> Register (₹501)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- AI & ML Model Contest -->
+                <div class="event-card" data-category="technical" 
+                    data-event-date="2026-02-26T10:00:00" 
+                    data-event-name="AIMLContest"
+                    data-event-category="technical">
+                    <div class="event-header">
+                        <span class="event-category technical">AI/ML</span>
+                        <h3 class="event-title">AI & ML Model Contest</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 10:00 AM - 6:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-AIMLContest">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-AIMLContest">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-AIMLContest">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-AIMLContest">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-AIMLContest">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-AIMLContest">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Showcase your artificial intelligence and machine learning expertise by developing innovative models 
+                            that solve real-world problems.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">2-3</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹201</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Computer Lab
+                        </span>
+                        <button class="event-btn register-btn" data-event="AI & ML Model Contest" data-category="technical" data-fee="201">
+                            <i class="fas fa-user-plus"></i> Register (₹201)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile App Development -->
+                <div class="event-card" data-category="technical" 
+                    data-event-date="2026-02-27T09:00:00" 
+                    data-event-name="MobileAppDev"
+                    data-event-category="technical">
+                    <div class="event-header">
+                        <span class="event-category technical">App Dev</span>
+                        <h3 class="event-title">Mobile App Development</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 27 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 9:00 AM - 5:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-MobileAppDev">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-MobileAppDev">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-MobileAppDev">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-MobileAppDev">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-MobileAppDev">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-MobileAppDev">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Build innovative mobile applications for Android or iOS platforms. Create functional, user-friendly apps 
+                            that solve real-world problems.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹101</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Development Lab
+                        </span>
+                        <button class="event-btn register-btn" data-event="Mobile App Development" data-category="technical" data-fee="101">
+                            <i class="fas fa-user-plus"></i> Register (₹101)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Web Design Contest -->
+                <div class="event-card" data-category="technical" 
+                    data-event-date="2026-02-26T09:30:00" 
+                    data-event-name="WebDesignContest"
+                    data-event-category="technical">
+                    <div class="event-header">
+                        <span class="event-category technical">Web Dev</span>
+                        <h3 class="event-title">Web Design Contest</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 9:30 AM - 4:30 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-WebDesignContest">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-WebDesignContest">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-WebDesignContest">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-WebDesignContest">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-WebDesignContest">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-WebDesignContest">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Create stunning, responsive, and user-friendly websites from scratch. Showcase your creativity in UI/UX design 
+                            and front-end development.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹101</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Computer Lab 3
+                        </span>
+                        <button class="event-btn register-btn" data-event="Web Design Contest" data-category="technical" data-fee="101">
+                            <i class="fas fa-user-plus"></i> Register (₹101)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- IoT Innovation Challenge -->
+                <div class="event-card" data-category="technical" 
+                    data-event-date="2026-02-27T10:00:00" 
+                    data-event-name="IoTInnovation"
+                    data-event-category="technical">
+                    <div class="event-header">
+                        <span class="event-category technical">IoT</span>
+                        <h3 class="event-title">IoT Innovation Challenge</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 27 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 10:00 AM - 6:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-IoTInnovation">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-IoTInnovation">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-IoTInnovation">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-IoTInnovation">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-IoTInnovation">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-IoTInnovation">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Build smart, connected devices that solve real-world problems. Create innovative Internet of Things solutions 
+                            combining hardware, software, and cloud integration.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹501</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> IoT Lab
+                        </span>
+                        <button class="event-btn register-btn" data-event="IoT Innovation Challenge" data-category="technical" data-fee="501">
+                            <i class="fas fa-user-plus"></i> Register (₹501)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- CAD Designing Contest -->
+                <div class="event-card" data-category="technical" 
+                    data-event-date="2026-02-26T13:00:00" 
+                    data-event-name="CADDesigning"
+                    data-event-category="technical">
+                    <div class="event-header">
+                        <span class="event-category technical">CAD Design</span>
+                        <h3 class="event-title">CAD Designing Contest</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 1:00 PM - 5:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-CADDesigning">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-CADDesigning">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-CADDesigning">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-CADDesigning">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-CADDesigning">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-CADDesigning">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Demonstrate your technical drawing and 3D modeling skills using Computer-Aided Design software. 
+                            Create precise engineering drawings and innovative product models.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹101</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> CAD Lab
+                        </span>
+                        <button class="event-btn register-btn" data-event="CAD Designing Contest" data-category="technical" data-fee="101">
+                            <i class="fas fa-user-plus"></i> Register (₹101)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Management, Strategy & Knowledge Events -->
+            <h2 class="category-heading">Management, Strategy & Knowledge Events</h2>
+            <div class="events-grid" id="management-events">
+                
+                <!-- Smart Business -->
+                <div class="event-card" data-category="management" 
+                    data-event-date="2026-02-26T15:00:00" 
+                    data-event-name="SmartBusiness"
+                    data-event-category="management">
+                    <div class="event-header">
+                        <span class="event-category management">Business</span>
+                        <h3 class="event-title">Smart Business</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 3:00 PM - 6:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-SmartBusiness">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-SmartBusiness">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-SmartBusiness">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-SmartBusiness">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-SmartBusiness">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-SmartBusiness">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Pitch your innovative business ideas to a panel of judges! Develop smart business models, 
+                            create compelling presentations, and demonstrate market viability.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">2</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹201</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Conference Room
+                        </span>
+                        <button class="event-btn register-btn" data-event="Smart Business" data-category="management" data-fee="201">
+                            <i class="fas fa-user-plus"></i> Register (₹201)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Flow Chart Design Competition -->
+                <div class="event-card" data-category="management" 
+                    data-event-date="2026-02-26T11:00:00" 
+                    data-event-name="FlowChartDesign"
+                    data-event-category="management">
+                    <div class="event-header">
+                        <span class="event-category management">Flow Chart</span>
+                        <h3 class="event-title">Flow Chart Design</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 11:00 AM - 2:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-FlowChartDesign">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-FlowChartDesign">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-FlowChartDesign">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-FlowChartDesign">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-FlowChartDesign">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-FlowChartDesign">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Design clear, logical, and visually appealing flow charts for complex processes! 
+                            Demonstrate your ability to visualize workflows, algorithms, and system processes.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹201</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Computer Lab 2
+                        </span>
+                        <button class="event-btn register-btn" data-event="Flow Chart Design" data-category="management" data-fee="201">
+                            <i class="fas fa-user-plus"></i> Register (₹201)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Bridge Building Contest -->
+                <div class="event-card" data-category="management" 
+                    data-event-date="2026-02-27T13:00:00" 
+                    data-event-name="BridgeBuilding"
+                    data-event-category="management">
+                    <div class="event-header">
+                        <span class="event-category management">Engineering</span>
+                        <h3 class="event-title">Bridge Building</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 27 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 1:00 PM - 5:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-BridgeBuilding">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-BridgeBuilding">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-BridgeBuilding">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-BridgeBuilding">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-BridgeBuilding">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-BridgeBuilding">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Test your civil engineering skills by designing and constructing a bridge using limited materials! 
+                            Create structures that maximize strength while minimizing weight.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">2</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹201</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Engineering Workshop
+                        </span>
+                        <button class="event-btn register-btn" data-event="Bridge Building" data-category="management" data-fee="201">
+                            <i class="fas fa-user-plus"></i> Register (₹201)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tech Debate -->
+                <div class="event-card" data-category="management" 
+                    data-event-date="2026-02-27T11:00:00" 
+                    data-event-name="TechDebate"
+                    data-event-category="management">
+                    <div class="event-header">
+                        <span class="event-category management">Debate</span>
+                        <h3 class="event-title">Tech Debate</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 27 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 11:00 AM - 3:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-TechDebate">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-TechDebate">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-TechDebate">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-TechDebate">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-TechDebate">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-TechDebate">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Engage in intellectual discourse on contemporary technology issues! Debate pressing tech topics, ethical dilemmas, 
+                            and future trends.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">2</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹201</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Auditorium
+                        </span>
+                        <button class="event-btn register-btn" data-event="Tech Debate" data-category="management" data-fee="201">
+                            <i class="fas fa-user-plus"></i> Register (₹201)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Tech Quiz -->
+                <div class="event-card" data-category="management" 
+                    data-event-date="2026-02-26T14:00:00" 
+                    data-event-name="TechQuiz"
+                    data-event-category="management">
+                    <div class="event-header">
+                        <span class="event-category management">Quiz</span>
+                        <h3 class="event-title">Tech Quiz</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 2:00 PM - 5:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-TechQuiz">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-TechQuiz">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-TechQuiz">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-TechQuiz">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-TechQuiz">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-TechQuiz">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Test your knowledge across various technology domains! Compete in this exciting quiz covering programming languages, 
+                            computer science fundamentals, and emerging technologies.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹201</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Seminar Hall
+                        </span>
+                        <button class="event-btn register-btn" data-event="Tech Quiz" data-category="management" data-fee="201">
+                            <i class="fas fa-user-plus"></i> Register (₹201)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Robotics & Engineering Events -->
+            <h2 class="category-heading">Robotics & Engineering Events</h2>
+            <div class="events-grid" id="robotics-events">
+                
+                <!-- Robo Race -->
+                <div class="event-card" data-category="robotics" 
+                    data-event-date="2026-02-26T10:00:00" 
+                    data-event-name="RoboRace"
+                    data-event-category="robotics">
+                    <div class="event-header">
+                        <span class="event-category robotics">Robotics</span>
+                        <h3 class="event-title">Robo Race</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 10:00 AM - 5:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-RoboRace">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-RoboRace">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-RoboRace">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-RoboRace">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-RoboRace">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-RoboRace">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Design and build racing robots to compete on challenging tracks. Test your robotics engineering skills 
+                            in speed, control, and innovation.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1-2</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹201</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Robotics Lab
+                        </span>
+                        <button class="event-btn register-btn" data-event="Robo Race" data-category="robotics" data-fee="201">
+                            <i class="fas fa-user-plus"></i> Register (₹201)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Line Follower Robot -->
+                <div class="event-card" data-category="robotics" 
+                    data-event-date="2026-02-26T11:00:00" 
+                    data-event-name="LineFollowerRobot"
+                    data-event-category="robotics">
+                    <div class="event-header">
+                        <span class="event-category robotics">Robotics</span>
+                        <h3 class="event-title">Line Follower Robot</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 11:00 AM - 3:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-LineFollowerRobot">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-LineFollowerRobot">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-LineFollowerRobot">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-LineFollowerRobot">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-LineFollowerRobot">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-LineFollowerRobot">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Design and program an autonomous robot that can follow a complex line track with precision and speed. 
+                            Test your robotics and programming skills.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1-2</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹201</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Robotics Arena
+                        </span>
+                        <button class="event-btn register-btn" data-event="Line Follower Robot" data-category="robotics" data-fee="201">
+                            <i class="fas fa-user-plus"></i> Register (₹201)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Drone Challenge -->
+                <div class="event-card" data-category="robotics" 
+                    data-event-date="2026-02-27T09:00:00" 
+                    data-event-name="DroneChallenge"
+                    data-event-category="robotics">
+                    <div class="event-header">
+                        <span class="event-category robotics">Aerial Tech</span>
+                        <h3 class="event-title">Drone Challenge</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 27 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 9:00 AM - 4:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-DroneChallenge">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-DroneChallenge">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-DroneChallenge">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-DroneChallenge">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-DroneChallenge">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-DroneChallenge">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Master the skies with precision flying and aerial maneuvers! Navigate obstacle courses, 
+                            perform challenging tasks, and demonstrate drone piloting skills.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">1-2</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹201</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Outdoor Arena
+                        </span>
+                        <button class="event-btn register-btn" data-event="Drone Challenge" data-category="robotics" data-fee="201">
+                            <i class="fas fa-user-plus"></i> Register (₹201)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game & Sports Events -->
+            <h2 class="category-heading">Game & Sports Events</h2>
+            <div class="events-grid" id="gaming-events">
+                
+                <!-- Treasure Hunt -->
+                <div class="event-card" data-category="gaming" 
+                    data-event-date="2026-02-26T09:00:00" 
+                    data-event-name="TreasureHunt"
+                    data-event-category="gaming">
+                    <div class="event-header">
+                        <span class="event-category gaming">Adventure</span>
+                        <h3 class="event-title">Treasure Hunt</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 26 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 9:00 AM - 4:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-TreasureHunt">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-TreasureHunt">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-TreasureHunt">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-TreasureHunt">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-TreasureHunt">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-TreasureHunt">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Follow the clues, solve the puzzles, and race to find the hidden treasure! 
+                            A thrilling adventure that tests your problem-solving skills and teamwork.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹301</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Campus Wide
+                        </span>
+                        <button class="event-btn register-btn" data-event="Treasure Hunt" data-category="gaming" data-fee="301">
+                            <i class="fas fa-user-plus"></i> Register (₹301)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Free Fire Max -->
+                <div class="event-card" data-category="gaming" 
+                    data-event-date="2026-02-27T12:00:00" 
+                    data-event-name="FreeFireMax"
+                    data-event-category="gaming">
+                    <div class="event-header">
+                        <span class="event-category gaming">Esports</span>
+                        <h3 class="event-title">Free Fire Max</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 27 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 12:00 PM - 8:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-FreeFireMax">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-FreeFireMax">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-FreeFireMax">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-FreeFireMax">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-FreeFireMax">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-FreeFireMax">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Battle Royale action at its finest! Compete in the ultimate Free Fire Max tournament with your squad. 
+                            Showcase your gaming skills, teamwork, and strategies.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹301</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Gaming Arena
+                        </span>
+                        <button class="event-btn register-btn" data-event="Free Fire Max" data-category="gaming" data-fee="301">
+                            <i class="fas fa-user-plus"></i> Register (₹301)
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- BGMI -->
+                <div class="event-card" data-category="gaming" 
+                    data-event-date="2026-02-27T18:00:00" 
+                    data-event-name="BGMI"
+                    data-event-category="gaming">
+                    <div class="event-header">
+                        <span class="event-category gaming">Esports</span>
+                        <h3 class="event-title">BGMI</h3>
+                        <div class="event-datetime">
+                            <div class="datetime-item">
+                                <i class="far fa-calendar"></i> 27 February 2026
+                            </div>
+                            <div class="datetime-item">
+                                <i class="far fa-clock"></i> 6:00 PM - 10:00 PM
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-countdown" id="timer-BGMI">
+                        <div class="countdown-header">
+                            <div class="countdown-label">
+                                <i class="fas fa-clock"></i>
+                                <span>Event Starts In</span>
+                            </div>
+                            <div class="countdown-status" id="status-BGMI">Counting down...</div>
+                        </div>
+                        <div class="countdown-display">
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="days-BGMI">00</span>
+                                <span class="countdown-label-small">Days</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="hours-BGMI">00</span>
+                                <span class="countdown-label-small">Hours</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="minutes-BGMI">00</span>
+                                <span class="countdown-label-small">Minutes</span>
+                            </div>
+                            <div class="countdown-unit">
+                                <span class="countdown-value" id="seconds-BGMI">00</span>
+                                <span class="countdown-label-small">Seconds</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="event-content">
+                        <p class="event-description">
+                            Step into the battleground and prove your dominance in BGMI. Team up, strategize, and fight for survival 
+                            to claim victory and exciting prizes.
+                        </p>
+                        <div class="event-stats">
+                            <div class="stat-item">
+                                <span class="stat-value">₹XX,000</span>
+                                <span class="stat-label">Prize Pool</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">4</span>
+                                <span class="stat-label">Team Size</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">₹301</span>
+                                <span class="stat-label">Registration</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="event-footer">
+                        <span style="color: #ff9966; font-family: 'Rajdhani', sans-serif; font-weight: 600;">
+                            <i class="fas fa-map-marker-alt"></i> Gaming Zone
+                        </span>
+                        <button class="event-btn register-btn" data-event="BGMI" data-category="gaming" data-fee="301">
+                            <i class="fas fa-user-plus"></i> Register (₹301)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schedule Section -->
+        <section id="schedule" class="schedule-section">
+            <h2 class="section-title">Event Schedule</h2>
+            
+            <div class="schedule-tabs">
+                <button class="schedule-tab active" data-day="day1">Day 1 (22 March)</button>
+                <button class="schedule-tab" data-day="day2">Day 2 (23 March)</button>
+                <button class="schedule-tab" data-day="day3">Day 3 (24 March)</button>
+                <button class="schedule-tab" data-day="day4">Day 4 (25 March)</button>
+            </div>
+            
+            <!-- Day 1 Schedule -->
+            <div class="schedule-day active" id="day1">
+                <div class="schedule-timeline">
+                    <div class="time-slot">
+                        <div class="slot-time">9:00 AM - 10:00 AM</div>
+                        <div class="slot-events">
+                            <div class="slot-event" data-event="Inauguration">
+                                <i class="fas fa-microphone"></i>
+                                <div>
+                                    <div class="slot-event-name">Inauguration Ceremony</div>
+                                    <div class="slot-event-venue">Main Auditorium</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prize Pool Section -->
+        <section class="prize-section">
+            <h2 class="section-title">Total Prize Pool: ₹5,00,000</h2>
+            <p style="color: #ccc; max-width: 600px; margin: 0 auto 40px; font-family: 'Rajdhani', sans-serif; font-size: 1.1rem;">
+                Win exciting cash prizes, trophies, certificates, and internship opportunities from our sponsors.
+            </p>
+            
+            <div class="prize-grid">
+                <div class="prize-card gold">
+                    <div class="prize-medal">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="prize-amount">₹XX,000</div>
+                    <div class="prize-title">Grand Champion</div>
+                    <p style="color: #aaa; margin-top: 15px; font-size: 0.9rem;">
+                        For overall best performance across categories
+                    </p>
+                </div>
+                
+                <div class="prize-card silver">
+                    <div class="prize-medal">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="prize-amount">₹XX,000</div>
+                    <div class="prize-title">Category Winner</div>
+                    <p style="color: #aaa; margin-top: 15px; font-size: 0.9rem;">
+                        For winners in each main event category
+                    </p>
+                </div>
+                
+                <div class="prize-card bronze">
+                    <div class="prize-medal">
+                        <i class="fas fa-medal"></i>
+                    </div>
+                    <div class="prize-amount">₹XX,000</div>
+                    <div class="prize-title">Runner Up</div>
+                    <p style="color: #aaa; margin-top: 15px; font-size: 0.9rem;">
+                        For second place in major competitions
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-3d">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="college-logo-container">
+                    <img src="Fest4.png" alt="GIFT Autonomous College Logo" class="college-logo">
+                    <div class="college-name">GIFT AUTONOMOUS<br><span style="font-size: 0.9rem;">BHUBANESWAR</span></div>
+                </div>
+                <p class="footer-tagline">Igniting Minds, Empowering Futures</p>
+                <p style="color: #ff9966; margin-top: 1rem; font-size: 0.9rem;">GIFT Autonomous College is committed to providing quality education and fostering innovation through events like FESTRONIX.</p>
+            </div>
+            <div class="footer-social">
+                <h4>Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/gift.autonomous.bhubaneswar?igsh=MXFiN205c2hwZ2RtYQ==" class="social-icon" title="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+                <p style="color: #ff9966; margin-top: 1rem; font-size: 0.85rem;">Follow us on social media for latest updates and event information!</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 FESTRONIX 2.0 - GIFT Autonomous College. All Rights Reserved.</p>
+            <p class="footer-legacy">Pioneering Technical Education Since 1997</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop"><i class="fas fa-chevron-up"></i></button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // ================= ENHANCED CURSOR ANIMATION =================
+            const cursorDot = document.querySelector("[data-cursor-dot]");
+            const cursorOutline = document.querySelector("[data-cursor-outline]");
+            let mouseX = 0, mouseY = 0, cursorX = 0, cursorY = 0;
+            let cursorHidden = false;
+
+            function initCursor() {
+                if (!cursorDot || !cursorOutline) return;
+                
+                // Check if on mobile/touch device
+                if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                    cursorDot.style.display = 'none';
+                    cursorOutline.style.display = 'none';
+                    cursorHidden = true;
+                    return;
+                }
+                
+                // Mouse move listener
+                document.addEventListener("mousemove", (e) => { 
+                    mouseX = e.clientX; 
+                    mouseY = e.clientY; 
+                    
+                    if (cursorHidden) {
+                        cursorHidden = false;
+                        cursorDot.style.display = 'block';
+                        cursorOutline.style.display = 'block';
+                    }
+                    
+                    // Update cursor dot immediately
+                    cursorDot.style.left = `${mouseX}px`; 
+                    cursorDot.style.top = `${mouseY}px`; 
+                });
+                
+                // Mouse down/up listeners
+                document.addEventListener("mousedown", () => {
+                    if (cursorHidden) return;
+                    cursorOutline.style.transform = "translate(-50%, -50%) scale(0.8)";
+                    cursorOutline.style.borderColor = "#ffcc33";
+                    cursorOutline.style.backgroundColor = "rgba(255, 204, 51, 0.1)";
+                });
+                
+                document.addEventListener("mouseup", () => {
+                    if (cursorHidden) return;
+                    cursorOutline.style.transform = "translate(-50%, -50%) scale(1)";
+                    cursorOutline.style.borderColor = "rgba(255, 71, 51, 0.8)";
+                    cursorOutline.style.backgroundColor = "transparent";
+                });
+                
+                // Hover detection for interactive elements
+                const hoverElements = [
+                    'button', 'a', '.event-card', '.filter-btn', 
+                    '.schedule-tab', '.register-btn', 'input', 
+                    'select', 'textarea', '.custom-checkbox', 
+                    '.back-btn', '.next-btn', '.close-modal', 
+                    '.instructions-list li', 'label', '.social-icon',
+                    '.event-btn', '.gallery-btn', '.user-auth-btn',
+                    '.mobile-nav-item'
+                ];
+                
+                document.addEventListener('mouseover', (e) => {
+                    if (cursorHidden) return;
+                    
+                    const target = e.target;
+                    const isInteractive = hoverElements.some(selector => 
+                        target.matches(selector) || target.closest(selector)
+                    );
+                    
+                    if (isInteractive) {
+                        cursorOutline.style.width = '50px';
+                        cursorOutline.style.height = '50px';
+                        cursorOutline.style.borderColor = '#ff9966';
+                        cursorOutline.style.backgroundColor = 'rgba(255, 153, 102, 0.1)';
+                        cursorDot.style.width = '10px';
+                        cursorDot.style.height = '10px';
+                        cursorDot.style.backgroundColor = '#ff9966';
+                    } else {
+                        cursorOutline.style.width = '40px';
+                        cursorOutline.style.height = '40px';
+                        cursorOutline.style.borderColor = 'rgba(255, 71, 51, 0.8)';
+                        cursorOutline.style.backgroundColor = 'transparent';
+                        cursorDot.style.width = '8px';
+                        cursorDot.style.height = '8px';
+                        cursorDot.style.backgroundColor = '#ffcc33';
+                    }
+                });
+                
+                // Animation loop
+                function animateCursor() {
+                    if (!cursorHidden) {
+                        cursorX += (mouseX - cursorX) * 0.15;
+                        cursorY += (mouseY - cursorY) * 0.15;
+                        cursorOutline.style.left = `${cursorX}px`;
+                        cursorOutline.style.top = `${cursorY}px`;
+                    }
+                    requestAnimationFrame(animateCursor);
+                }
+                
+                animateCursor();
+            }
+
+            // ================= USER AUTH FUNCTIONS =================
+            function updateUserAuthDisplay() {
+                const container = document.getElementById('userAuthContainer');
+                const mobileAuth = document.getElementById('mobileAuthButtons');
+                const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+                
+                let htmlContent = '';
+                let mobileHtmlContent = '';
+                
+                if (isLoggedIn) {
+                    const user = JSON.parse(localStorage.getItem('userData') || '{}');
+                    // Desktop version - User button in nav
+                    htmlContent = `
+                        <a class="user-auth-btn" id="userAuthBtn" href="#">
+                            <i class="fas fa-user"></i>
+                            <span id="userAuthText">${user.firstName || 'User'}</span>
+                        </a>
+                    `;
+                    // Mobile version - Profile button
+                    mobileHtmlContent = `
+                        <a href="profile.html" class="mobile-profile-btn">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#" class="mobile-login-btn" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    `;
+                    document.getElementById('mobileUserName').innerText = user.firstName || 'User';
+                    document.getElementById('mobileUserEmail').innerText = user.email || '';
+                } else {
+                    // Desktop version - Signup button
+                    htmlContent = `
+                        <a class="user-auth-btn" href="signup.html">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Signup</span>
+                        </a>
+                    `;
+                    // Mobile version - Login and Signup buttons
+                    mobileHtmlContent = `
+                        <a href="login.html" class="mobile-login-btn">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>Login</span>
+                        </a>
+                        <a href="signup.html" class="mobile-signup-btn">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Sign Up</span>
+                        </a>
+                    `;
+                }
+                container.innerHTML = htmlContent;
+                mobileAuth.innerHTML = mobileHtmlContent;
+                
+                // Add logout functionality if user is logged in
+                if (isLoggedIn) {
+                    const logoutBtn = document.getElementById('logoutBtn');
+                    if (logoutBtn) {
+                        logoutBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            localStorage.removeItem('isLoggedIn');
+                            localStorage.removeItem('userData');
+                            updateUserAuthDisplay();
+                            location.reload();
+                        });
+                    }
+                    
+                    // Add click event for user button in desktop nav
+                    const userAuthBtn = document.getElementById('userAuthBtn');
+                    if (userAuthBtn) {
+                        userAuthBtn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            window.location.href = 'profile.html';
+                        });
+                    }
+                }
+            }
+
+            // ================= EVENT FILTERING =================
+            function initEventFiltering() {
+                document.querySelectorAll('.filter-btn').forEach(button => {
+                    button.addEventListener('click', function() {
+                        // Remove active class from all buttons
+                        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                        
+                        // Add active class to clicked button
+                        this.classList.add('active');
+                        
+                        const filterValue = this.getAttribute('data-filter');
+                        
+                        // Get all category sections
+                        const categorySections = [
+                            { id: 'technical-events', heading: '.category-heading:nth-of-type(1)' },
+                            { id: 'management-events', heading: '.category-heading:nth-of-type(2)' },
+                            { id: 'robotics-events', heading: '.category-heading:nth-of-type(3)' },
+                            { id: 'gaming-events', heading: '.category-heading:nth-of-type(4)' }
+                        ];
+                        
+                        if (filterValue === 'all') {
+                            // Show all events and all category headings
+                            categorySections.forEach(section => {
+                                document.getElementById(section.id).style.display = 'grid';
+                                document.querySelector(section.heading).style.display = 'block';
+                            });
+                        } else {
+                            // Hide all categories first
+                            categorySections.forEach(section => {
+                                document.getElementById(section.id).style.display = 'none';
+                                document.querySelector(section.heading).style.display = 'none';
+                            });
+                            
+                            // Show only the selected category
+                            switch(filterValue) {
+                                case 'technical':
+                                    document.getElementById('technical-events').style.display = 'grid';
+                                    document.querySelector('.category-heading:nth-of-type(1)').style.display = 'block';
+                                    break;
+                                case 'management':
+                                    document.getElementById('management-events').style.display = 'grid';
+                                    document.querySelector('.category-heading:nth-of-type(2)').style.display = 'block';
+                                    break;
+                                case 'robotics':
+                                    document.getElementById('robotics-events').style.display = 'grid';
+                                    document.querySelector('.category-heading:nth-of-type(3)').style.display = 'block';
+                                    break;
+                                case 'gaming':
+                                    document.getElementById('gaming-events').style.display = 'grid';
+                                    document.querySelector('.category-heading:nth-of-type(4)').style.display = 'block';
+                                    break;
+                            }
+                        }
+                    });
+                });
+            }
+
+            // ================= MOBILE MENU =================
+            const menuBtn = document.getElementById('mobileMenuBtn');
+            const navOverlay = document.getElementById('mobileNavOverlay');
+            const closeBtn = document.getElementById('mobileCloseBtn');
+            const toggleMenu = () => {
+                navOverlay.classList.toggle('active');
+                document.body.style.overflow = navOverlay.classList.contains('active') ? 'hidden' : '';
+            };
+            
+            menuBtn.addEventListener('click', toggleMenu);
+            closeBtn.addEventListener('click', toggleMenu);
+            
+            navOverlay.addEventListener('click', (e) => {
+                if (e.target === navOverlay) toggleMenu();
+            });
+            
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', toggleMenu);
+            });
+
+            // ================= BACK TO TOP =================
+            const topBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                topBtn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+                // Scroll Indicator
+                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                document.querySelector('.scroll-indicator').style.transform = `scaleX(${winScroll / height})`;
+            });
+            topBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+
+            // ================= INSTRUCTION MODAL SYSTEM =================
+            let currentEventData = null;
+
+            // Event instructions data
+            const eventInstructions = {
+                'Hackathon': {
+                    title: 'Hackathon Instructions',
+                    rules: [
+                        '24-hour hackathon starting at 9:00 AM',
+                        'Maximum 3 members per team',
+                        'Bring your own laptops and necessary hardware',
+                        'Internet connectivity will be provided',
+                        'Food and refreshments will be served',
+                        'Final presentation at 5:00 PM on Day 2'
+                    ],
+                    requirements: [
+                        'Valid college ID card',
+                        'Team name and logo',
+                        'Problem statement selection on spot',
+                        'GitHub repository for code submission'
+                    ]
+                },
+                'Robo Race': {
+                    title: 'Robo Race Instructions',
+                    rules: [
+                        'Duration: 7 hours (10:00 AM - 5:00 PM)',
+                        'Maximum 4 members per team',
+                        'Robots must follow safety guidelines',
+                        'Weight limit: 15kg maximum',
+                        'No hazardous materials allowed',
+                        'Judges decision will be final'
+                    ],
+                    requirements: [
+                        'Valid college ID card',
+                        'Robot specifications sheet',
+                        'Safety waiver form',
+                        'Team details'
+                    ]
+                },
+                'BGMI': {
+                    title: 'BGMI Tournament Instructions',
+                    rules: [
+                        'Duration: 4 hours (6:00 PM - 10:00 PM)',
+                        'Maximum 4 members per team',
+                        'Mobile devices will be provided',
+                        'Tournament format: Elimination rounds',
+                        'Fair play rules strictly enforced',
+                        'No cheats or hacks allowed'
+                    ],
+                    requirements: [
+                        'Valid college ID card',
+                        'Team details',
+                        'Game account (if using own device)'
+                    ]
+                },
+                'Default': {
+                    title: 'Event Instructions',
+                    rules: [
+                        'Arrive 30 minutes before event start time',
+                        'Bring valid college ID card',
+                        'Follow all event guidelines',
+                        'Respect other participants and judges',
+                        'No late entries allowed'
+                    ],
+                    requirements: [
+                        'Registration confirmation',
+                        'Required equipment/materials',
+                        'Team details if applicable'
+                    ]
+                }
+            };
+
+            // Initialize instruction modal system
+            function initInstructionModal() {
+                // Add click handlers to all register buttons
+                document.querySelectorAll('.register-btn').forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const eventName = this.getAttribute('data-event');
+                        showInstructions(eventName);
+                    });
+                });
+                
+                // Initialize modal controls
+                const agreeCheckbox = document.getElementById('agreeCheckbox');
+                const nextBtn = document.getElementById('nextToRegistration');
+                const backBtn = document.getElementById('backFromInstructions');
+                const closeInstructionBtn = document.getElementById('closeInstructionModal');
+                
+                // Handle checkbox change
+                agreeCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        nextBtn.classList.add('active');
+                    } else {
+                        nextBtn.classList.remove('active');
+                    }
+                });
+                
+                // Handle next button click
+                nextBtn.addEventListener('click', function() {
+                    if (agreeCheckbox.checked && currentEventData) {
+                        // Redirect to registration form with event data
+                        const eventName = encodeURIComponent(currentEventData.name);
+                        const eventCategory = encodeURIComponent(currentEventData.category || 'general');
+                        
+                        // Store event data in localStorage for registration form
+                        const eventData = {
+                            name: currentEventData.name,
+                            category: currentEventData.category || 'general'
+                        };
+                        
+                        localStorage.setItem('selectedEvent', JSON.stringify(eventData));
+                        
+                        // Close modal
+                        hideInstructions();
+                        
+                        // Redirect to registration form
+                        setTimeout(() => {
+                            window.location.href = `registration_form.html?event=${eventName}&category=${eventCategory}`;
+                        }, 300);
+                    }
+                });
+                
+                // Handle back button click
+                backBtn.addEventListener('click', hideInstructions);
+                
+                // Handle close button click
+                closeInstructionBtn.addEventListener('click', hideInstructions);
+                
+                // Close modal when clicking outside
+                document.getElementById('instructionModal').addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        hideInstructions();
+                    }
+                });
+                
+                // Close with Escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && document.getElementById('instructionModal').classList.contains('active')) {
+                        hideInstructions();
+                    }
+                });
+            }
+
+            // Show instructions for a specific event
+            function showInstructions(eventName) {
+                currentEventData = {
+                    name: eventName,
+                    instructions: eventInstructions[eventName] || eventInstructions['Default'],
+                    category: eventName.includes('Hackathon') ? 'technical' : 
+                            eventName.includes('Robo') ? 'robotics' :
+                            eventName.includes('BGMI') ? 'gaming' : 'general'
+                };
+                
+                // Update modal content
+                document.getElementById('instructionEventTitle').textContent = currentEventData.instructions.title;
+                document.getElementById('instructionEventSubtitle').textContent = `For ${eventName}`;
+                
+                const instructionsContainer = document.getElementById('eventSpecificInstructions');
+                instructionsContainer.innerHTML = `
+                    <div style="margin-bottom: 20px;">
+                        <h3 style="color: #ffcc33; font-family: 'Rajdhani', sans-serif; margin-bottom: 12px; font-size: 1.2rem;">
+                            <i class="fas fa-list-check"></i> Event Rules & Guidelines
+                        </h3>
+                        <ul class="instructions-list">
+                            ${currentEventData.instructions.rules.map(rule => `
+                                <li><i class="fas fa-check-circle" style="color: #ff9966;"></i> ${rule}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h3 style="color: #ffcc33; font-family: 'Rajdhani', sans-serif; margin-bottom: 12px; font-size: 1.2rem;">
+                            <i class="fas fa-clipboard-check"></i> Requirements
+                        </h3>
+                        <ul class="instructions-list">
+                            ${currentEventData.instructions.requirements.map(req => `
+                                <li><i class="fas fa-check-circle" style="color: #ff9966;"></i> ${req}</li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                `;
+                
+                // Reset checkbox and next button
+                document.getElementById('agreeCheckbox').checked = false;
+                document.getElementById('nextToRegistration').classList.remove('active');
+                
+                // Show modal
+                document.getElementById('instructionModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            // Hide instructions modal
+            function hideInstructions() {
+                document.getElementById('instructionModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+                document.getElementById('agreeCheckbox').checked = false;
+                document.getElementById('nextToRegistration').classList.remove('active');
+            }
+
+            // ================= EVENT COUNTDOWN =================
+            class EventCountdown {
+                constructor() {
+                    this.timers = new Map();
+                    this.init();
+                }
+                
+                init() {
+                    document.querySelectorAll('.event-card').forEach(card => {
+                        const date = card.getAttribute('data-event-date');
+                        const name = card.getAttribute('data-event-name');
+                        if (date) this.timers.set(name, { date: new Date(date).getTime(), name });
+                    });
+                    setInterval(() => this.updateAll(), 1000);
+                }
+                
+                updateAll() {
+                    const now = Date.now();
+                    this.timers.forEach(t => {
+                        const dist = t.date - now;
+                        const days = Math.floor(dist / (1000*60*60*24));
+                        const hours = Math.floor((dist % (1000*60*60*24)) / (1000*60*60));
+                        const mins = Math.floor((dist % (1000*60*60)) / (1000*60));
+                        const secs = Math.floor((dist % (1000*60)) / 1000);
+                        
+                        const d = document.getElementById(`days-${t.name}`);
+                        const h = document.getElementById(`hours-${t.name}`);
+                        const m = document.getElementById(`minutes-${t.name}`);
+                        const s = document.getElementById(`seconds-${t.name}`);
+                        
+                        if(d) d.textContent = days < 0 ? "00" : days.toString().padStart(2, '0');
+                        if(h) h.textContent = hours < 0 ? "00" : hours.toString().padStart(2, '0');
+                        if(m) m.textContent = mins < 0 ? "00" : mins.toString().padStart(2, '0');
+                        if(s) s.textContent = secs < 0 ? "00" : secs.toString().padStart(2, '0');
+                    });
+                }
+            }
+
+            // ================= SCHEDULE TABS =================
+            document.querySelectorAll('.schedule-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.schedule-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.schedule-day').forEach(day => day.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                    const dayId = this.getAttribute('data-day');
+                    if (document.getElementById(dayId)) {
+                        document.getElementById(dayId).classList.add('active');
+                    }
+                });
+            });
+
+            // ================= INITIALIZE EVERYTHING =================
+            function initializeEverything() {
+                // Initialize cursor
+                initCursor();
+                
+                // Update user auth display
+                updateUserAuthDisplay();
+                
+                // Initialize instruction modal
+                initInstructionModal();
+                
+                // Initialize event filtering
+                initEventFiltering();
+                
+                // Initialize countdown timers
+                new EventCountdown();
+                
+                // Set active navigation item
+                function setActiveNavItem() {
+                    const currentPage = window.location.pathname.split('/').pop() || 'events.html';
+                    const navLinks = document.querySelectorAll('.et-hero-tab');
+                    
+                    navLinks.forEach(link => {
+                        const href = link.getAttribute('href');
+                        if (href === currentPage) {
+                            link.classList.add('active');
+                        } else {
+                            link.classList.remove('active');
+                        }
+                    });
+                }
+                
+                setActiveNavItem();
+                
+                // Smooth scroll for anchor links
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        if (targetId === '#') return;
+                        
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    });
+                });
+                
+                // Initialize animations on scroll
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                document.querySelectorAll('.event-card, .prize-card').forEach(item => {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(20px)';
+                    item.style.transition = 'all 0.5s ease';
+                    observer.observe(item);
+                });
+                
+                // Video Background Fallback
+                const video = document.querySelector('video');
+                if (video) {
+                    video.play().catch(e => console.log("Autoplay blocked"));
+                }
+            }
+
+            // Start everything
+            initializeEverything();
+        });
+    </script>
+</body>
+</html>

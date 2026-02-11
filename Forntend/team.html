@@ -1,0 +1,3179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>FESTRONIX2.0 - Team</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Combined CSS with 3D Card Integration */
+        :root {
+            --blood: #b30000;
+            --ember: #ff2a00;
+            --fire: #ff5500;
+            --dark-bg: #0a0000;
+            --card-bg: rgba(20, 0, 0, 0.6);
+            --gold: #ffcc00;
+            --neon-red: #ff0040;
+            --dark-red: #660000;
+            --glass-bg: rgba(255, 42, 0, 0.05);
+            --glass-border: rgba(255, 85, 0, 0.2);
+            --yellow-gold: #ffcc33;
+            --orange: #ff6600;
+            --pink: #ff3366;
+            --light-orange: #ff9966;
+            --green-teal: #00ffd6;
+            --green-light: #08e260;
+            --green-dark: #00894d;
+            --green-transparent: rgba(0, 137, 78, 0.76);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #000;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: geometricPrecision;
+            touch-action: pan-y;
+        }
+
+        /* ================= VIDEO BACKGROUND ================= */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 0, 0, 0.3);
+            mix-blend-mode: multiply;
+        }
+
+        /* ================= CUSTOM CURSOR ================= */
+        .cursor, .cursor-dot {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        @media (max-width: 768px) {
+            .cursor, .cursor-dot {
+                display: none;
+            }
+            body {
+                cursor: auto;
+            }
+        }
+
+        /* ================= SCROLL INDICATOR ================= */
+        .scroll-indicator {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff4733, #ffcc33, #ff4733);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1001;
+            transition: transform 0.1s ease;
+        }
+
+        @media (max-width: 768px) {
+            .scroll-indicator {
+                top: 60px;
+            }
+        }
+
+        /* ================= STICKY NAVIGATION ================= */
+        .et-hero-tabs {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            height: 70px;
+            position: relative;
+            background: transparent;
+            text-align: center;
+            padding: 0;
+            overflow: visible;
+            z-index: 100;
+        }
+
+        .et-hero-tabs-container {
+            display: flex;
+            flex-direction: row;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 70px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid #ff4733;
+            -webkit-backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        @media (max-width: 991px) {
+            .et-hero-tabs-container {
+                display: none !important;
+            }
+        }
+
+        .et-hero-tab {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            color: #ffffff;
+            letter-spacing: 0.1rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            padding: 0 5px;
+            min-height: 70px;
+        }
+
+        .et-hero-tab:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: #ff4733;
+            transition: all 0.3s ease;
+        }
+
+        .et-hero-tab:hover {
+            color: #ffcc33;
+            background: rgba(255, 71, 51, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .et-hero-tab:hover:before {
+            width: 80%;
+        }
+
+        .et-hero-tab i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        .et-hero-tab-slider {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 3px;
+            background: #ff4733;
+            transition: left 0.3s ease;
+            box-shadow: 0 0 15px rgba(255, 71, 51, 0.8);
+            z-index: 1;
+        }
+
+        /* Active navigation item */
+        .et-hero-tab.active {
+            color: #ffcc33 !important;
+            background: rgba(255, 71, 51, 0.25) !important;
+        }
+        .et-hero-tab.active:before {
+            width: 80% !important;
+        }
+
+        /* User Authentication Button */
+        .user-auth-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .user-auth-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 71, 51, 0.3);
+            color: white;
+            letter-spacing: 0.1rem;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            padding: 0 15px;
+            min-height: 70px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .user-auth-btn:before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: #ff4733;
+            transition: all 0.3s ease;
+        }
+
+        .user-auth-btn:hover {
+            color: #ffcc33;
+            background: rgba(255, 71, 51, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .user-auth-btn:hover:before {
+            width: 80%;
+        }
+
+        .user-auth-btn i {
+            margin-right: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* ================= MOBILE NAVIGATION ================= */
+        .mobile-menu-btn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2001;
+            cursor: pointer;
+            border: 1px solid rgba(255, 204, 51, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            background: rgba(255, 71, 51, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 3px 15px rgba(255, 71, 51, 0.3);
+        }
+
+        .mobile-menu-btn i {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @media (max-width: 991px) {
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+        }
+
+        .mobile-nav-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .mobile-nav-overlay.active {
+            display: block;
+        }
+
+        .mobile-nav-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 85%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            overflow-y: auto;
+            border-left: 2px solid #ff4733;
+            transform: translateX(100%);
+            animation: slideIn 0.4s ease forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .mobile-nav-header {
+            padding: 25px 20px;
+            border-bottom: 1px solid rgba(255, 71, 51, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mobile-user-icon {
+            font-size: 2.5rem;
+            color: #ff9966;
+        }
+
+        .mobile-close-btn {
+            background: none;
+            border: none;
+            color: #ffcc33;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-nav-menu {
+            padding: 20px;
+        }
+
+        .mobile-nav-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-nav-item:hover {
+            background: rgba(255, 71, 51, 0.1);
+            padding-left: 25px;
+        }
+
+        .mobile-nav-item i {
+            margin-right: 15px;
+            color: #ff9966;
+        }
+
+        /* Mobile Auth Buttons */
+        .mobile-auth-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+            padding: 0 15px;
+        }
+
+        /* Mobile Login Button Style */
+        .mobile-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid rgba(255, 71, 51, 0.6);
+            font-size: 1rem;
+            width: 100%;
+            background: rgba(255, 71, 51, 0.2);
+            color: #ff9966;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-login-btn:hover {
+            background: rgba(255, 71, 51, 0.3);
+            color: #ffcc33;
+            border-color: #ff4733;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile Signup Button Style */
+        .mobile-signup-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid transparent;
+            font-size: 1rem;
+            width: 100%;
+            background: linear-gradient(135deg, #ff4733, #ff9966);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 71, 51, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .mobile-signup-btn:hover {
+            background: linear-gradient(135deg, #ff3366, #ffcc33);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 71, 51, 0.5);
+        }
+
+        /* Mobile Profile Button */
+        .mobile-profile-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            border: 2px solid rgba(255, 204, 51, 0.5);
+            font-size: 1rem;
+            width: 100%;
+            background: rgba(255, 204, 51, 0.15);
+            color: #ffcc33;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-profile-btn:hover {
+            background: rgba(255, 204, 51, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* ================= MAIN CONTENT ================= */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            background: transparent;
+            padding-top: 70px; /* Account for fixed nav */
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding-top: 60px;
+            }
+        }
+
+        /* ================= SECTIONS COMMON STYLES ================= */
+        .page-section {
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--ember), transparent);
+            box-shadow: 0 0 10px var(--ember);
+        }
+
+        @media (max-width: 768px) {
+            .page-section {
+                padding: 3rem 1rem;
+            }
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: transparent;
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: var(--ember);
+            text-shadow: 0 0 10px var(--ember);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--ember), transparent);
+            box-shadow: 0 0 10px var(--ember);
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+            
+            .section-title::after {
+                width: 150px;
+            }
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--light-orange);
+            font-family: 'Orbitron', monospace;
+            letter-spacing: 2px;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .section-subtitle {
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+        }
+
+        /* ================= UPDATED LARGER 3D CARD STYLES ================= */
+        .team-card-parent {
+            width: 100%;
+            height: 550px;
+            perspective: 1000px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .team-card-parent {
+                height: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-card-parent {
+                height: 450px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .team-card-3d {
+            height: 100%;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #0a0000 0%, #1a0a0a 100%);
+            transition: all 0.5s ease-in-out;
+            transform-style: preserve-3d;
+            box-shadow: rgba(179, 0, 0, 0) 40px 50px 25px -40px, rgba(179, 0, 0, 0.2) 0px 25px 25px -5px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 42, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .team-card-3d {
+                border-radius: 20px;
+            }
+        }
+
+        .team-card-glass {
+            transform-style: preserve-3d;
+            position: absolute;
+            inset: 10px;
+            border-radius: 30px;
+            border-top-right-radius: 100%;
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.15) 100%);
+            transform: translate3d(0px, 0px, 25px);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.5s ease-in-out;
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .team-card-glass {
+                border-radius: 20px;
+                inset: 8px;
+            }
+        }
+
+        .team-card-content {
+            padding: 80px 40px 40px 40px;
+            transform: translate3d(0, 0, 26px);
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+        }
+
+        @media (max-width: 992px) {
+            .team-card-content {
+                padding: 70px 30px 30px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-card-content {
+                padding: 60px 20px 20px 20px;
+            }
+        }
+
+        .team-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            overflow: hidden;
+            border: 3px solid rgba(255, 204, 51, 0.3);
+            box-shadow: 0 0 30px rgba(255, 204, 51, 0.2);
+            transform: translateZ(30px);
+            position: relative;
+            transition: all 0.5s ease;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 992px) {
+            .team-image {
+                width: 130px;
+                height: 130px;
+                margin-bottom: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-image {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .team-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .team-card-3d h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            color: var(--yellow-gold);
+            margin-bottom: 15px;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(255, 204, 51, 0.3);
+            transform: translateZ(20px);
+            display: block;
+            line-height: 1.2;
+        }
+
+        @media (max-width: 992px) {
+            .team-card-3d h3 {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-card-3d h3 {
+                font-size: 1.6rem;
+                margin-bottom: 10px;
+            }
+        }
+
+        .team-role {
+            display: block;
+            color: var(--fire);
+            font-weight: 900;
+            font-size: 1.4rem;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transform: translateZ(15px);
+            text-shadow: 0 0 5px rgba(255, 85, 0, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            .team-role {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-role {
+                font-size: 1.1rem;
+                margin-bottom: 15px;
+                letter-spacing: 1px;
+            }
+        }
+
+        .team-description {
+            display: block;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            transform: translateZ(10px);
+            text-align: center;
+            flex-grow: 1;
+            overflow: hidden;
+            padding: 0 10px;
+            font-weight: 400;
+            max-height: 140px;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            text-overflow: ellipsis;
+        }
+
+        @media (max-width: 992px) {
+            .team-description {
+                font-size: 1.1rem;
+                line-height: 1.6;
+                -webkit-line-clamp: 4;
+                max-height: 120px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-description {
+                font-size: 1rem;
+                line-height: 1.5;
+                -webkit-line-clamp: 3;
+                max-height: 90px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .team-description-full {
+            display: none;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-top: 15px;
+            margin-bottom: 25px;
+            transform: translateZ(10px);
+            text-align: center;
+            padding: 0 10px;
+            font-weight: 400;
+        }
+
+        .team-card-bottom {
+            padding: 20px 25px;
+            transform-style: preserve-3d;
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transform: translate3d(0, 0, 26px);
+            z-index: 2;
+            background: rgba(10, 0, 0, 0.5);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 42, 0, 0.2);
+        }
+
+        @media (max-width: 992px) {
+            .team-card-bottom {
+                padding: 15px 20px;
+                left: 20px;
+                right: 20px;
+                bottom: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-card-bottom {
+                padding: 12px 15px;
+                left: 15px;
+                right: 15px;
+                bottom: 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        .team-view-more {
+            display: flex;
+            align-items: center;
+            width: 40%;
+            justify-content: flex-end;
+            transition: all 0.2s ease-in-out;
+        }
+
+        @media (max-width: 768px) {
+            .team-view-more {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .team-view-more .view-more-button {
+            background: none;
+            border: none;
+            color: var(--yellow-gold);
+            font-weight: bolder;
+            font-size: 1.1rem;
+            cursor: pointer;
+            font-family: 'Rajdhani', sans-serif;
+            letter-spacing: 1px;
+            text-shadow: 0 0 5px rgba(255, 204, 51, 0.3);
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .team-view-more .view-more-button {
+                font-size: 1rem;
+                padding: 6px 12px;
+            }
+        }
+
+        .team-view-more .view-more-button:hover {
+            background: rgba(255, 204, 51, 0.1);
+            color: var(--fire);
+        }
+
+        .team-view-more .svg {
+            fill: none;
+            stroke: var(--yellow-gold);
+            stroke-width: 3px;
+            max-height: 20px;
+            margin-left: 10px;
+            filter: drop-shadow(0 0 2px rgba(255, 204, 51, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .team-view-more:hover .svg {
+            stroke: var(--fire);
+        }
+
+        .team-social {
+            display: flex;
+            gap: 15px;
+            transform-style: preserve-3d;
+        }
+
+        @media (max-width: 768px) {
+            .team-social {
+                justify-content: center;
+            }
+        }
+
+        .team-social .social-link {
+            width: 40px;
+            height: 40px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 204, 51, 0.3);
+            display: grid;
+            place-content: center;
+            box-shadow: rgba(179, 0, 0, 0.3) 0px 7px 5px -5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+        }
+
+        @media (max-width: 768px) {
+            .team-social .social-link {
+                width: 35px;
+                height: 35px;
+                padding: 6px;
+            }
+        }
+
+        .team-social .social-link:first-child {
+            transition: transform 0.2s ease-in-out 0.4s, box-shadow 0.2s ease-in-out 0.4s;
+        }
+
+        .team-social .social-link:nth-child(2) {
+            transition: transform 0.2s ease-in-out 0.6s, box-shadow 0.2s ease-in-out 0.6s;
+        }
+
+        .team-social .social-link:nth-child(3) {
+            transition: transform 0.2s ease-in-out 0.8s, box-shadow 0.2s ease-in-out 0.8s;
+        }
+
+        .team-social .social-link .svg {
+            width: 20px;
+            fill: var(--yellow-gold);
+            transition: fill 0.2s ease-in-out;
+            filter: drop-shadow(0 0 2px rgba(255, 204, 51, 0.3));
+        }
+
+        @media (max-width: 768px) {
+            .team-social .social-link .svg {
+                width: 18px;
+            }
+        }
+
+        .team-social .social-link:hover {
+            background: var(--ember);
+            border-color: var(--fire);
+            transform: translateZ(30px);
+            box-shadow: 0 0 15px rgba(255, 42, 0, 0.5);
+        }
+
+        .team-social .social-link:hover .svg {
+            fill: white;
+        }
+
+        .team-social .social-link:active {
+            background: var(--yellow-gold);
+        }
+
+        .team-social .social-link:active .svg {
+            fill: black;
+        }
+
+        .team-card-logo {
+            position: absolute;
+            right: 0;
+            top: 0;
+            transform-style: preserve-3d;
+            z-index: 1;
+        }
+
+        .team-card-logo .circle {
+            display: block;
+            position: absolute;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            top: 0;
+            right: 0;
+            box-shadow: rgba(100, 100, 111, 0.2) -10px 10px 20px 0px;
+            backdrop-filter: blur(5px);
+            background: rgba(255, 42, 0, 0.1);
+            transition: all 0.5s ease-in-out;
+            border: 1px solid rgba(255, 42, 0, 0.2);
+        }
+
+        .team-card-logo .circle1 {
+            width: 220px;
+            transform: translate3d(0, 0, 20px);
+            top: 10px;
+            right: 10px;
+        }
+
+        .team-card-logo .circle2 {
+            width: 180px;
+            transform: translate3d(0, 0, 40px);
+            top: 15px;
+            right: 15px;
+            backdrop-filter: blur(1px);
+            transition-delay: 0.4s;
+        }
+
+        .team-card-logo .circle3 {
+            width: 140px;
+            transform: translate3d(0, 0, 60px);
+            top: 20px;
+            right: 20px;
+            transition-delay: 0.8s;
+        }
+
+        .team-card-logo .circle4 {
+            width: 110px;
+            transform: translate3d(0, 0, 80px);
+            top: 25px;
+            right: 25px;
+            transition-delay: 1.2s;
+        }
+
+        .team-card-logo .circle5 {
+            width: 70px;
+            transform: translate3d(0, 0, 100px);
+            top: 35px;
+            right: 35px;
+            display: grid;
+            place-content: center;
+            background: rgba(255, 204, 51, 0.2);
+            border: 1px solid rgba(255, 204, 51, 0.3);
+            transition-delay: 1.6s;
+        }
+
+        .team-card-logo .circle5 .svg {
+            width: 28px;
+            fill: var(--yellow-gold);
+            filter: drop-shadow(0 0 3px rgba(255, 204, 51, 0.5));
+        }
+
+        @media (max-width: 992px) {
+            .team-card-logo .circle1 {
+                width: 180px;
+            }
+            
+            .team-card-logo .circle2 {
+                width: 150px;
+            }
+            
+            .team-card-logo .circle3 {
+                width: 120px;
+            }
+            
+            .team-card-logo .circle4 {
+                width: 90px;
+            }
+            
+            .team-card-logo .circle5 {
+                width: 60px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-card-logo .circle1 {
+                width: 150px;
+            }
+            
+            .team-card-logo .circle2 {
+                width: 120px;
+            }
+            
+            .team-card-logo .circle3 {
+                width: 90px;
+            }
+            
+            .team-card-logo .circle4 {
+                width: 70px;
+            }
+            
+            .team-card-logo .circle5 {
+                width: 50px;
+            }
+        }
+
+        /* ================= UPDATED HOVER EFFECTS ================= */
+        .team-card-parent:hover .team-card-3d {
+            transform: rotate3d(1, 1, 0, 30deg);
+            box-shadow: rgba(179, 0, 0, 0.4) 30px 50px 25px -40px, rgba(179, 0, 0, 0.2) 0px 25px 30px 0px;
+            border-color: rgba(255, 42, 0, 0.4);
+        }
+
+        .team-card-parent:hover .team-card-glass {
+            background: linear-gradient(0deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.2) 100%);
+            border-left-color: rgba(255, 255, 255, 0.3);
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .team-card-parent:hover .team-card-bottom .team-social .social-link {
+            transform: translate3d(0, 0, 50px);
+            box-shadow: rgba(179, 0, 0, 0.4) -5px 20px 10px 0px;
+        }
+
+        .team-card-parent:hover .team-card-logo .circle2 {
+            transform: translate3d(0, 0, 60px);
+        }
+
+        .team-card-parent:hover .team-card-logo .circle3 {
+            transform: translate3d(0, 0, 80px);
+        }
+
+        .team-card-parent:hover .team-card-logo .circle4 {
+            transform: translate3d(0, 0, 100px);
+        }
+
+        .team-card-parent:hover .team-card-logo .circle5 {
+            transform: translate3d(0, 0, 120px);
+            background: rgba(255, 204, 51, 0.3);
+        }
+
+        /* Add hover effect to team image */
+        .team-card-parent:hover .team-image {
+            border-color: rgba(255, 204, 51, 0.5);
+            box-shadow: 0 0 40px rgba(255, 204, 51, 0.4);
+        }
+
+        .team-card-parent:hover .team-image img {
+            transform: scale(1.1);
+        }
+
+        /* Add hover effect to name and role */
+        .team-card-parent:hover .team-card-3d h3 {
+            color: var(--fire);
+            text-shadow: 0 0 15px rgba(255, 85, 0, 0.5);
+        }
+
+        .team-card-parent:hover .team-role {
+            color: var(--yellow-gold);
+            text-shadow: 0 0 10px rgba(255, 204, 51, 0.5);
+        }
+
+        /* Add hover effect to description */
+        .team-card-parent:hover .team-description {
+            color: rgba(255, 255, 255, 1);
+        }
+
+        @media (hover: none) {
+            .team-card-parent:hover .team-card-3d,
+            .team-card-parent:hover .team-card-glass,
+            .team-card-parent:hover .team-card-bottom .team-social .social-link,
+            .team-card-parent:hover .team-card-logo .circle2,
+            .team-card-parent:hover .team-card-logo .circle3,
+            .team-card-parent:hover .team-card-logo .circle4,
+            .team-card-parent:hover .team-card-logo .circle5,
+            .team-card-parent:hover .team-image,
+            .team-card-parent:hover .team-image img,
+            .team-card-parent:hover .team-card-3d h3,
+            .team-card-parent:hover .team-role,
+            .team-card-parent:hover .team-description {
+                transform: none;
+                box-shadow: none;
+                border-color: rgba(255, 42, 0, 0.2);
+                background: none;
+                color: inherit;
+                text-shadow: none;
+            }
+        }
+
+        /* ================= TEAM CONTAINER ================= */
+        .team-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 40px;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 1200px) {
+            .team-container {
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .team-container {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                gap: 25px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+                gap: 20px;
+            }
+        }
+
+        .team-category {
+            margin-bottom: 5rem;
+        }
+
+        @media (max-width: 768px) {
+            .team-category {
+                margin-bottom: 3rem;
+            }
+        }
+
+        .team-category .section-header {
+            margin-bottom: 3rem;
+        }
+
+        .team-category .section-title {
+            font-size: 2.4rem;
+        }
+
+        @media (max-width: 768px) {
+            .team-category .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        .team-category .section-subtitle {
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .team-category .section-subtitle {
+                font-size: 1rem;
+            }
+        }
+
+        /* ================= TEAM STATISTICS ================= */
+        .team-stats {
+            margin-top: 5rem;
+            background: rgba(10, 0, 0, 0.7);
+            padding: 4rem;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 42, 0, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            .team-stats {
+                padding: 3rem;
+                margin-top: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .team-stats {
+                padding: 2rem 1rem;
+                border-radius: 15px;
+                margin-top: 2rem;
+            }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 992px) {
+            .stats-grid {
+                gap: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 42, 0, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 42, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .stat-item {
+                padding: 1.5rem;
+            }
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 42, 0, 0.1);
+            border-color: rgba(255, 42, 0, 0.4);
+            box-shadow: 0 10px 20px rgba(255, 42, 0, 0.2);
+        }
+
+        @media (hover: none) {
+            .stat-item:hover {
+                transform: none;
+                background: rgba(255, 42, 0, 0.05);
+                border-color: rgba(255, 42, 0, 0.2);
+                box-shadow: none;
+            }
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            color: var(--ember);
+            font-weight: 800;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 10px rgba(255, 42, 0, 0.3);
+        }
+
+        @media (max-width: 992px) {
+            .stat-number {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        .stat-label {
+            color: var(--light-orange);
+            font-size: 1.3rem;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .stat-label {
+                font-size: 1.1rem;
+                margin-top: 0.5rem;
+            }
+        }
+
+        /* ================= JOIN TEAM ================= */
+        .join-team {
+            margin-top: 5rem;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .join-team {
+                margin-top: 3rem;
+            }
+        }
+
+        .join-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .join-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+                margin-top: 2rem;
+            }
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            min-height: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+                min-height: 45px;
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--blood), var(--ember));
+            color: white;
+            box-shadow: 0 0 20px rgba(255, 42, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 42, 0, 0.6);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--ember);
+            color: var(--ember);
+            box-shadow: 0 0 15px rgba(255, 42, 0, 0.4);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 42, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 42, 0, 0.6);
+        }
+
+        @media (hover: none) {
+            .btn-primary:hover,
+            .btn-outline:hover {
+                transform: none;
+                box-shadow: none;
+            }
+        }
+
+        /* ================= FOOTER ================= */
+        .footer-3d {
+            background: rgba(10, 0, 0, 0.95);
+            padding: 4rem 2rem;
+            border-top: 1px solid rgba(255, 42, 0, 0.3);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        @media (max-width: 768px) {
+            .footer-3d {
+                padding: 3rem 1rem;
+            }
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .college-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .college-logo-container {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+        }
+
+        .college-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--ember);
+            box-shadow: 0 0 20px var(--ember);
+        }
+
+        .college-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--ember);
+            text-shadow: 0 0 10px var(--ember);
+            font-weight: 800;
+        }
+
+        @media (max-width: 480px) {
+            .college-name {
+                font-size: 1.5rem;
+            }
+        }
+
+        .footer-social h4 {
+            color: var(--ember);
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 42, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--ember);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 42, 0, 0.3);
+        }
+
+        @media (max-width: 480px) {
+            .social-icon {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+        }
+
+        .social-icon:hover {
+            background: linear-gradient(45deg, var(--blood), var(--ember));
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--ember);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 42, 0, 0.2);
+        }
+
+        .footer-bottom p {
+            color: var(--light-orange);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .footer-bottom p {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* ================= MODAL FOR TEAM DETAILS ================= */
+        .team-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .team-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0a0000 0%, #1a0a0a 100%);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            border: 2px solid var(--ember);
+            box-shadow: 0 0 50px var(--ember);
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                padding: 30px 20px;
+                border-radius: 20px;
+            }
+        }
+
+        .team-modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--ember);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            .close-modal {
+                top: 15px;
+                right: 15px;
+                width: 35px;
+                height: 35px;
+                font-size: 1.3rem;
+            }
+        }
+
+        .close-modal:hover {
+            background: rgba(255, 42, 0, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .modal-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            overflow: hidden;
+            border: 3px solid rgba(255, 204, 51, 0.3);
+            box-shadow: 0 0 30px rgba(255, 204, 51, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .modal-image {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 20px;
+            }
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            color: var(--yellow-gold);
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        @media (max-width: 768px) {
+            .modal-name {
+                font-size: 2rem;
+            }
+        }
+
+        .modal-role {
+            color: var(--fire);
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .modal-role {
+                font-size: 1.2rem;
+                margin-bottom: 20px;
+            }
+        }
+
+        .modal-description {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .modal-description {
+                font-size: 1rem;
+                line-height: 1.6;
+                margin-bottom: 20px;
+            }
+        }
+
+        /* ================= BACK TO TOP BUTTON ================= */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #ff4733, #ff9966);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(255, 71, 51, 0.5);
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(255, 71, 51, 0.8);
+        }
+
+        @media (max-width: 768px) {
+            .back-to-top {
+                width: 45px;
+                height: 45px;
+                font-size: 1.3rem;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        /* ================= RESPONSIVE DESIGN ================= */
+        @media (max-width: 1200px) {
+            .team-container {
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+                gap: 30px;
+            }
+            
+            .team-card-parent {
+                height: 520px;
+            }
+            
+            .team-card-content {
+                padding: 70px 35px 35px 35px;
+            }
+            
+            .team-image {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .team-card-3d h3 {
+                font-size: 2rem;
+            }
+            
+            .team-role {
+                font-size: 1.3rem;
+            }
+            
+            .et-hero-tabs-container {
+                height: 65px;
+                padding: 0 10px;
+            }
+            
+            .et-hero-tab {
+                font-size: 0.9rem;
+                padding: 0 8px;
+                min-height: 65px;
+            }
+            
+            .et-hero-tab i {
+                margin-right: 6px;
+                font-size: 1rem;
+            }
+            
+            .scroll-indicator {
+                top: 65px;
+            }
+            
+            .main-content {
+                padding-top: 65px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                padding-top: 65px;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .team-container {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            }
+            
+            .team-card-parent {
+                height: 500px;
+            }
+            
+            .team-card-content {
+                padding: 60px 30px 30px 30px;
+            }
+            
+            .team-card-bottom {
+                padding: 15px 20px;
+                left: 20px;
+                right: 20px;
+                bottom: 25px;
+            }
+            
+            .team-description {
+                font-size: 1.1rem;
+                line-height: 1.7;
+                -webkit-line-clamp: 4;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-section {
+                padding: 3rem 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .team-container {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .team-card-parent {
+                height: 480px;
+            }
+            
+            .team-card-content {
+                padding: 50px 25px 25px 25px;
+            }
+            
+            .team-image {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .team-card-3d h3 {
+                font-size: 1.8rem;
+            }
+            
+            .team-role {
+                font-size: 1.2rem;
+            }
+            
+            .team-description {
+                font-size: 1.1rem;
+                -webkit-line-clamp: 3;
+            }
+            
+            .team-card-logo .circle1 {
+                width: 180px;
+            }
+            
+            .team-card-logo .circle2 {
+                width: 150px;
+            }
+            
+            .team-card-logo .circle3 {
+                width: 120px;
+            }
+            
+            .team-card-logo .circle4 {
+                width: 90px;
+            }
+            
+            .team-card-logo .circle5 {
+                width: 60px;
+            }
+            
+            .join-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .et-hero-tabs-container {
+                height: 60px;
+                padding: 0 5px;
+            }
+            
+            .et-hero-tab {
+                font-size: 0.85rem;
+                padding: 0 5px;
+                min-height: 60px;
+            }
+            
+            .et-hero-tab i {
+                margin-right: 5px;
+                font-size: 0.9rem;
+            }
+            
+            .scroll-indicator {
+                top: 60px;
+            }
+            
+            .main-content {
+                padding-top: 60px;
+            }
+        }
+
+        @media (max-width: 599px) {
+            .et-hero-tabs-container {
+                height: auto;
+                min-height: 60px;
+                padding: 10px 5px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .et-hero-tab {
+                flex: 0 0 33.333%;
+                min-height: 50px;
+                font-size: 0.8rem;
+                padding: 10px 3px;
+                margin: 2px 0;
+            }
+            
+            .et-hero-tab i {
+                display: block;
+                margin: 0 auto 5px;
+                font-size: 1.1rem;
+            }
+            
+            .et-hero-tab span {
+                display: block;
+                text-align: center;
+            }
+            
+            .scroll-indicator {
+                top: 120px;
+            }
+            
+            .main-content {
+                padding-top: 120px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .team-card-parent {
+                height: 460px;
+            }
+            
+            .team-card-content {
+                padding: 40px 20px 20px 20px;
+            }
+            
+            .team-image {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .team-card-3d h3 {
+                font-size: 1.6rem;
+            }
+            
+            .team-role {
+                font-size: 1.1rem;
+            }
+            
+            .team-description {
+                font-size: 1rem;
+                -webkit-line-clamp: 3;
+            }
+            
+            .team-card-bottom {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+                padding: 15px;
+            }
+            
+            .team-view-more {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .team-social {
+                justify-content: center;
+            }
+            
+            .team-card-logo .circle1 {
+                width: 150px;
+            }
+            
+            .team-card-logo .circle2 {
+                width: 120px;
+            }
+            
+            .team-card-logo .circle3 {
+                width: 90px;
+            }
+            
+            .team-card-logo .circle4 {
+                width: 70px;
+            }
+            
+            .team-card-logo .circle5 {
+                width: 50px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .stat-label {
+                font-size: 1.1rem;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+            
+            .modal-name {
+                font-size: 2rem;
+            }
+            
+            .modal-role {
+                font-size: 1.2rem;
+            }
+            
+            .modal-description {
+                font-size: 1rem;
+            }
+            
+            .cursor, .cursor-dot {
+                display: none;
+            }
+            
+            * {
+                cursor: auto !important;
+            }
+        }
+
+        @media (max-width: 424px) {
+            .et-hero-tabs-container {
+                height: auto;
+                min-height: 60px;
+                padding: 8px 3px;
+                flex-wrap: wrap;
+                justify-content: center;
+                backdrop-filter: blur(5px);
+            }
+            
+            .et-hero-tab {
+                flex: 0 0 33.333%;
+                min-height: 45px;
+                font-size: 0.75rem;
+                padding: 8px 2px;
+                margin: 1px 0;
+                letter-spacing: 0.05rem;
+            }
+            
+            .et-hero-tab i {
+                display: block;
+                margin: 0 auto 4px;
+                font-size: 1rem;
+            }
+            
+            .et-hero-tab span {
+                display: block;
+                text-align: center;
+            }
+            
+            .scroll-indicator {
+                top: 115px;
+                height: 2px;
+            }
+            
+            .team-stats {
+                padding: 2rem 1rem;
+            }
+            
+            .join-buttons .btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Prevent horizontal scroll on mobile */
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Improve touch targets for mobile */
+        button, 
+        .et-hero-tab, 
+        .btn, 
+        .back-to-top {
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        .et-hero-tab {
+            touch-action: manipulation;
+        }
+
+        /* Smooth scrolling for iOS */
+        .main-content {
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
+</head>
+<body>
+    <!-- Video Background -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline>
+            <source src="light.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-dot"></div>
+
+    <!-- Team Details Modal -->
+    <div class="team-modal" id="teamModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-image" id="modalImage"></div>
+            <h2 class="modal-name" id="modalName"></h2>
+            <p class="modal-role" id="modalRole"></p>
+            <p class="modal-description" id="modalDescription"></p>
+            <div class="team-social" style="justify-content: center; margin-top: 20px;" id="modalSocial"></div>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator"></div>
+
+    <!-- Sticky Navigation -->
+    <section class="et-hero-tabs" id="hero-section">
+        <!-- Sticky Navigation -->
+        <div class="et-hero-tabs-container">
+            <!-- Linking to your existing HTML pages -->
+            <a class="et-hero-tab" href="index.html">
+                <i class="fas fa-home"></i> <span>Home</span>
+            </a>
+            <a class="et-hero-tab" href="previous.html">
+                <i class="fas fa-history"></i> <span>Previous Year</span>
+            </a>
+            <a class="et-hero-tab" href="gallery.html">
+                <i class="fas fa-images"></i> <span>Gallery</span>
+            </a>
+            <a class="et-hero-tab" href="events.html">
+                <i class="fas fa-calendar-alt"></i> <span>Events</span>
+            </a>
+            <a class="et-hero-tab" href="sponsors.html">
+                <i class="fas fa-handshake"></i> <span>Sponsorship</span>
+            </a>
+            <!-- Add other pages as needed -->
+            <a class="et-hero-tab" href="about.html">
+                <i class="fas fa-info-circle"></i> <span>About</span>
+            </a>
+            <a class="et-hero-tab" href="team.html" style="color: #ffcc33; background: rgba(255, 71, 51, 0.25);">
+                <i class="fas fa-users"></i> <span>Team</span>
+            </a>
+            <a class="et-hero-tab" href="contact.html">
+                <i class="fas fa-envelope"></i> <span>Contact</span>
+            </a>
+            <!-- User Authentication Container -->
+            <div class="user-auth-container" id="userAuthContainer">
+                <!-- User authentication button will be injected here -->
+            </div>
+            <span class="et-hero-tab-slider"></span>
+        </div>
+    </section>
+
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay" id="mobileNavOverlay">
+        <div class="mobile-nav-container">
+            <div class="mobile-nav-header">
+                <div class="mobile-user-info">
+                    <div class="mobile-user-icon"><i class="fas fa-user-circle"></i></div>
+                    <div class="mobile-user-details">
+                        <h4 id="mobileUserName">Guest</h4>
+                        <p id="mobileUserEmail">Not logged in</p>
+                    </div>
+                </div>
+                <button class="mobile-close-btn" id="mobileCloseBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="mobile-nav-menu">
+                <a href="index.html" class="mobile-nav-item"><i class="fas fa-home"></i> <span>Home</span></a>
+                <a href="previous.html" class="mobile-nav-item"><i class="fas fa-history"></i> <span>Previous Year</span></a>
+                <a href="gallery.html" class="mobile-nav-item"><i class="fas fa-images"></i> <span>Gallery</span></a>
+                <a href="events.html" class="mobile-nav-item"><i class="fas fa-calendar-alt"></i> <span>Events</span></a>
+                <a href="sponsors.html" class="mobile-nav-item"><i class="fas fa-handshake"></i> <span>Sponsorship</span></a>
+                <a href="about.html" class="mobile-nav-item"><i class="fas fa-info-circle"></i> <span>About</span></a>
+                <a href="team.html" class="mobile-nav-item"><i class="fas fa-users"></i> <span>Team</span></a>
+                <a href="contact.html" class="mobile-nav-item"><i class="fas fa-envelope"></i> <span>Contact</span></a>
+                <div class="mobile-auth-buttons" id="mobileAuthButtons"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Team Section -->
+        <section class="page-section" id="team">
+            <div class="section-header">
+                <h2 class="section-title">Core Team</h2>
+                <p class="section-subtitle">Meet the Organizing Committee</p>
+            </div>
+
+            <!-- Leadership Team -->
+            <div class="team-category">
+                <div class="section-header">
+                    <h3 class="section-title">Leadership Team</h3>
+                    <p class="section-subtitle">The Visionaries Behind FESTRONIX 2.0</p>
+                </div>
+                
+                <div class="team-container">
+                    <!-- Team Member 1 -->
+                    <div class="team-card-parent" data-member="1">
+                        <div class="team-card-3d">
+                            <div class="team-card-logo">
+                                <span class="circle circle1"></span>
+                                <span class="circle circle2"></span>
+                                <span class="circle circle3"></span>
+                                <span class="circle circle4"></span>
+                                <span class="circle circle5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="team-card-glass"></div>
+                            <div class="team-card-content">
+                                <div class="team-image">
+                                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Arjun Mehta - Fest Coordinator">
+                                </div>
+                                <h3>Arjun Mehta</h3>
+                                <span class="team-role">Fest Coordinator</span>
+                                <p class="team-description">Overall coordination and strategic planning of FESTRONIX 2.0. Leads the core team and ensures smooth execution. Manages all departments and coordinates with college administration. With excellent leadership skills and organizational capabilities.</p>
+                            </div>
+                            <div class="team-card-bottom">
+                                <div class="team-social">
+                                    <a href="#" class="social-link" title="LinkedIn">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="Email">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="Phone">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="team-view-more">
+                                    <button class="view-more-button">View Profile</button>
+                                    <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 2 -->
+                    <div class="team-card-parent" data-member="2">
+                        <div class="team-card-3d">
+                            <div class="team-card-logo">
+                                <span class="circle circle1"></span>
+                                <span class="circle circle2"></span>
+                                <span class="circle circle3"></span>
+                                <span class="circle circle4"></span>
+                                <span class="circle circle5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="team-card-glass"></div>
+                            <div class="team-card-content">
+                                <div class="team-image">
+                                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Neha Singh - PR & Marketing Head">
+                                </div>
+                                <h3>Neha Singh</h3>
+                                <span class="team-role">PR & Marketing Head</span>
+                                <p class="team-description">Manages public relations, marketing campaigns, social media, and sponsor communications. Creates promotional content and manages all external communications for FESTRONIX 2.0. Expert in digital marketing strategies and brand building.</p>
+                            </div>
+                            <div class="team-card-bottom">
+                                <div class="team-social">
+                                    <a href="#" class="social-link" title="Instagram">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="Email">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="Twitter">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="team-view-more">
+                                    <button class="view-more-button">View Profile</button>
+                                    <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 3 -->
+                    <div class="team-card-parent" data-member="3">
+                        <div class="team-card-3d">
+                            <div class="team-card-logo">
+                                <span class="circle circle1"></span>
+                                <span class="circle circle2"></span>
+                                <span class="circle circle3"></span>
+                                <span class="circle circle4"></span>
+                                <span class="circle circle5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="team-card-glass"></div>
+                            <div class="team-card-content">
+                                <div class="team-image">
+                                    <img src="https://images.unsplash.com/photo-1551836026-d5c2e0c49b61?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Vikram Patel - Technical Events Head">
+                                </div>
+                                <h3>Vikram Patel</h3>
+                                <span class="team-role">Technical Events Head</span>
+                                <p class="team-description">Oversees all technical competitions, workshops, and ensures proper technical infrastructure. Coordinates with technical departments and manages event logistics for smooth execution. Specializes in robotics and software development events.</p>
+                            </div>
+                            <div class="team-card-bottom">
+                                <div class="team-social">
+                                    <a href="#" class="social-link" title="GitHub">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="Email">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="LinkedIn">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="team-view-more">
+                                    <button class="view-more-button">View Profile</button>
+                                    <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Team -->
+            <div class="team-category">
+                <div class="section-header">
+                    <h3 class="section-title">Technical Team</h3>
+                    <p class="section-subtitle">The Tech Wizards Making It Happen</p>
+                </div>
+                
+                <div class="team-container">
+                    <!-- Team Member 4 -->
+                    <div class="team-card-parent" data-member="4">
+                        <div class="team-card-3d">
+                            <div class="team-card-logo">
+                                <span class="circle circle1"></span>
+                                <span class="circle circle2"></span>
+                                <span class="circle circle3"></span>
+                                <span class="circle circle4"></span>
+                                <span class="circle circle5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="team-card-glass"></div>
+                            <div class="team-card-content">
+                                <div class="team-image">
+                                    <img src="sumit.jpeg" alt="Sumit Kumar Rout - Web Development Lead">
+                                </div>
+                                <h3>Sumit Kumar Rout</h3>
+                                <span class="team-role">Web Development Lead</span>
+                                <p class="team-description">Develops and maintains the FESTRONIX website, registration portal, and online platforms. Ensures seamless user experience and implements all technical features for the event. Expert in frontend and backend web technologies.</p>
+                            </div>
+                            <div class="team-card-bottom">
+                                <div class="team-social">
+                                    <a href="#" class="social-link" title="GitHub">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="Website">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="Email">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="team-view-more">
+                                    <button class="view-more-button">View Profile</button>
+                                    <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 5 -->
+                    <div class="team-card-parent" data-member="5">
+                        <div class="team-card-3d">
+                            <div class="team-card-logo">
+                                <span class="circle circle1"></span>
+                                <span class="circle circle2"></span>
+                                <span class="circle circle3"></span>
+                                <span class="circle circle4"></span>
+                                <span class="circle circle5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="team-card-glass"></div>
+                            <div class="team-card-content">
+                                <div class="team-image">
+                                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Karan Verma - Robotics Lead">
+                                </div>
+                                <h3>Karan Verma</h3>
+                                <span class="team-role">Robotics Lead</span>
+                                <p class="team-description">Manages robotics competitions, workshops, and technical demonstrations for the fest. Coordinates with robotics clubs and ensures all technical setups are properly implemented. Expert in embedded systems and automation.</p>
+                            </div>
+                            <div class="team-card-bottom">
+                                <div class="team-social">
+                                    <a href="#" class="social-link" title="LinkedIn">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="" class="social-link" title="YouTube">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="Email">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="team-view-more">
+                                    <button class="view-more-button">View Profile</button>
+                                    <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Team Member 6 -->
+                    <div class="team-card-parent" data-member="6">
+                        <div class="team-card-3d">
+                            <div class="team-card-logo">
+                                <span class="circle circle1"></span>
+                                <span class="circle circle2"></span>
+                                <span class="circle circle3"></span>
+                                <span class="circle circle4"></span>
+                                <span class="circle circle5">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"></path>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="team-card-glass"></div>
+                            <div class="team-card-content">
+                                <div class="team-image">
+                                    <img src="https://images.unsplash.com/photo-1507591064344-4c6ce005-128?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Sneha Reddy - AI/ML Coordinator">
+                                </div>
+                                <h3>Sneha Reddy</h3>
+                                <span class="team-role">AI/ML Coordinator</span>
+                                <p class="team-description">Coordinates AI/ML workshops, hackathons, and technical sessions for participants. Manages AI-related events and ensures proper technical infrastructure for machine learning competitions. Expert in data science and neural networks.</p>
+                            </div>
+                            <div class="team-card-bottom">
+                                <div class="team-social">
+                                    <a href="#" class="social-link" title="Kaggle">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M16.539 9.186a4.155 4.155 0 0 0-1.451-.251c-1.6 0-2.73.806-2.738 1.963 0 .835.679 1.395 1.825 1.617l.76.172c1.817.409 2.948 1.079 2.948 2.549 0 1.667-1.359 2.796-3.627 2.796a5.055 5.055 0 0 1-3.984-1.613l.88-1.43a3.687 3.687 0 0 0 2.8 1.357c1.2 0 2.114-.53 2.114-1.64 0-.94-.642-1.485-2.171-1.771l-.76-.173c-1.4-.326-2.536-1.001-2.536-2.444 0-1.546 1.276-2.627 3.43-2.627a4.8 4.8 0 0 1 3.624 1.482l-.851 1.309zm4.349-2.092v12.538h-2.141v-3.928a2.527 2.527 0 0 0-2.343-2.631 2.475 2.475 0 0 0-2.391 2.631v3.928h-2.142V7.094h2.142v2.991c.671-1.077 1.657-2.003 3.209-2.003 1.944 0 3.466 1.423 3.466 3.9v4.055zM9.342 4.91a2.261 2.261 0 0 0-2.268 2.264 2.264 2.264 0 1 0 4.53 0 2.264 2.264 0 0 0-2.262-2.264z"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="GitHub">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M12 1.27a11 11 0 00-3.48 21.46c.55.09.73-.28.73-.55v-1.84c-3.03.64-3.67-1.46-3.67-1.46-.55-1.29-1.28-1.65-1.28-1.65-.92-.65.1-.65.1-.65 1.1 0 1.73 1.1 1.73 1.1.92 1.65 2.57 1.2 3.21.92a2 2 0 01.64-1.47c-2.47-.27-5.04-1.19-5.04-5.5 0-1.1.46-2.1 1.2-2.84a3.76 3.76 0 010-2.93s.91-.28 3.11 1.1c1.8-.49 3.7-.49 5.5 0 2.1-1.38 3.02-1.1 3.02-1.1a3.76 3.76 0 010 2.93c.83.74 1.2 1.74 1.2 2.94 0 4.21-2.57 5.13-5.04 5.4.45.37.82.92.82 2.02v3.03c0 .27.1.64.73.55A11 11 0 0012 1.27"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#" class="social-link" title="Email">
+                                        <svg viewBox="0 0 24 24" class="svg">
+                                            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="team-view-more">
+                                    <button class="view-more-button">View Profile</button>
+                                    <svg class="svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="m6 9 6 6 6-6"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Statistics -->
+            <div class="team-stats">
+                <div class="section-header">
+                    <h2 class="section-title">Team Statistics</h2>
+                    <p class="section-subtitle">Behind the Scenes of FESTRONIX 2.0</p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Core Team Members</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Volunteers</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Departments</div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-label">Man Hours</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Join Team Section -->
+            <div class="join-team">
+                <div class="section-header">
+                    <h2 class="section-title">Join Our Team</h2>
+                    <p class="section-subtitle">Be Part of Something Amazing</p>
+                </div>
+                
+                <div style="max-width: 600px; margin: 0 auto;">
+                    <p style="color: var(--light-orange); font-size: 1.1rem; margin-bottom: 2rem; text-align: center;">
+                        Want to contribute to FESTRONIX 3.0? We're always looking for passionate students to join our team.
+                    </p>
+                    
+                    <div class="join-buttons">
+                        <a href="contact.html" class="btn btn-primary">
+                            <i class="fas fa-envelope"></i> Contact Us
+                        </a>
+                        <a href="signup.html?type=volunteer" class="btn btn-outline">
+                            <i class="fas fa-hand-paper"></i> Volunteer Registration
+                        </a>
+                        <a href="#" class="btn btn-outline" onclick="openTeamApplication()">
+                            <i class="fas fa-user-plus"></i> Apply for Core Team
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-3d">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="college-logo-container">
+                    <img src="gift logo.png" alt="GIFT Autonomous College Logo" class="college-logo">
+                    <div class="college-name">GIFT AUTONOMOUS<br><span style="font-size: 1rem;">BHUBANESWAR</span></div>
+                </div>
+                <p class="footer-tagline">Igniting Minds, Empowering Futures</p>
+                <p style="color: var(--light-orange); margin-top: 1rem;">GIFT Autonomous College is committed to providing quality education and fostering innovation through events like FESTRONIX.</p>
+            </div>
+            <div class="footer-social">
+                <h4>Connect With Us</h4>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/gift.autonomous.bhubaneswar?igsh=MXFiN205c2hwZ2RtYQ==" class="social-icon" title="Instagram" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://youtube.com/@giftautonomousbbsr?si=dFAnDeP5MOyLS7I6
+                    " class="social-icon" title="You-Tube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="LinkedIn">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+                <p style="color: var(--light-orange); margin-top: 1.5rem; font-size: 0.9rem;">
+                    Follow us on social media for latest updates and event information!
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 FESTRONIX 2.0 - GIFT Autonomous College. All Rights Reserved.</p>
+            <p class="footer-legacy">Pioneering Technical Education Since 1997</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorDot = document.querySelector('.cursor-dot');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorDot.style.left = e.clientX + 'px';
+            cursorDot.style.top = e.clientY + 'px';
+        });
+
+        // Hover effects for cursor
+        const hoverElements = document.querySelectorAll('a, button, .et-hero-tab, .social-link, .team-card-parent');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1.5)';
+                cursor.style.background = 'rgba(255, 71, 51, 0.2)';
+                cursor.style.borderColor = '#ff5500';
+                cursor.style.backdropFilter = 'blur(5px)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+                cursor.style.background = 'transparent';
+                cursor.style.borderColor = '#ff2a00';
+                cursor.style.backdropFilter = 'blur(2px)';
+            });
+        });
+
+        // Sticky Navigation Implementation
+        class StickyNavigation {
+            constructor() {
+                this.currentId = null;
+                this.currentTab = null;
+                this.tabContainerHeight = 70;
+                this.lastScrollTop = 0;
+                let self = this;
+                
+                // Get current page filename
+                this.currentPage = window.location.pathname.split("/").pop() || "team.html";
+                
+                // Bind events
+                $(window).scroll(() => { 
+                    this.onScroll(); 
+                    this.handleScrollDirection();
+                });
+                
+                $(window).resize(() => { 
+                    this.onResize(); 
+                });
+                
+                // Initialize
+                setTimeout(() => {
+                    this.onScroll();
+                    this.highlightCurrentPage();
+                    this.setSliderCss();
+                }, 100);
+            }
+            
+            onScroll() {
+                this.updateScrollIndicator();
+            }
+            
+            onResize() {
+                if(this.currentId) {
+                    this.setSliderCss();
+                }
+            }
+            
+            setSliderCss() {
+                let width = 0;
+                let left = 0;
+                
+                if(this.currentTab) {
+                    width = this.currentTab.css('width');
+                    left = this.currentTab.offset().left;
+                }
+                
+                $('.et-hero-tab-slider').css('width', width);
+                $('.et-hero-tab-slider').css('left', left);
+            }
+            
+            handleScrollDirection() {
+                let st = $(window).scrollTop();
+                if (st > this.lastScrollTop) {
+                    // Scrolling down
+                    if (st > 100) {
+                        $('.et-hero-tabs-container').css('transform', 'translateY(-100%)');
+                    }
+                } else {
+                    // Scrolling up
+                    $('.et-hero-tabs-container').css('transform', 'translateY(0)');
+                }
+                this.lastScrollTop = st <= 0 ? 0 : st;
+            }
+            
+            updateScrollIndicator() {
+                let winHeight = $(window).height();
+                let docHeight = $(document).height();
+                let scrollTop = $(window).scrollTop();
+                let scrollPercent = (scrollTop) / (docHeight - winHeight);
+                $('.scroll-indicator').css('transform', 'scaleX(' + scrollPercent + ')');
+            }
+            
+            highlightCurrentPage() {
+                // Find and highlight the current page in navigation
+                $('.et-hero-tab').each(function() {
+                    const href = $(this).attr('href');
+                    if (href === this.currentPage) {
+                        $(this).addClass('active');
+                        this.currentTab = $(this);
+                    }
+                }.bind(this));
+            }
+        }
+
+        // Team modal functionality
+        const teamModal = document.getElementById('teamModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const modalName = document.getElementById('modalName');
+        const modalRole = document.getElementById('modalRole');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalImage = document.getElementById('modalImage');
+        const modalSocial = document.getElementById('modalSocial');
+
+        // Team member data
+        const teamMembers = {
+            1: {
+                name: "Arjun Mehta",
+                role: "Fest Coordinator",
+                image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+                description: "Arjun is the overall coordinator and strategic planner of FESTRONIX 2.0. He leads the core team and ensures smooth execution of all events. With excellent leadership skills and organizational capabilities, he manages all departments and coordinates with college administration. Arjun has been instrumental in scaling the fest to new heights and ensuring every aspect runs perfectly.",
+                social: [
+                    { platform: "LinkedIn", icon: "linkedin", link: "#" },
+                    { platform: "Email", icon: "envelope", link: "#" },
+                    { platform: "Phone", icon: "phone", link: "#" }
+                ]
+            },
+            2: {
+                name: "Neha Singh",
+                role: "PR & Marketing Head",
+                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+                description: "Neha manages all public relations, marketing campaigns, social media, and sponsor communications for FESTRONIX 2.0. She creates compelling promotional content and manages all external communications. As an expert in digital marketing strategies and brand building, she has significantly increased the fest's reach and engagement across multiple platforms.",
+                social: [
+                    { platform: "Instagram", icon: "instagram", link: "#" },
+                    { platform: "Email", icon: "envelope", link: "#" },
+                    { platform: "Twitter", icon: "twitter", link: "#" }
+                ]
+            },
+            3: {
+                name: "Vikram Patel",
+                role: "Technical Events Head",
+                image: "https://images.unsplash.com/photo-1551836026-d5c2e0c49b61?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+                description: "Vikram oversees all technical competitions, workshops, and ensures proper technical infrastructure for FESTRONIX 2.0. He coordinates with technical departments and manages event logistics for smooth execution. Specializing in robotics and software development events, Vikram has created some of the most challenging and engaging technical competitions in the fest's history.",
+                social: [
+                    { platform: "GitHub", icon: "github", link: "#" },
+                    { platform: "Email", icon: "envelope", link: "#" },
+                    { platform: "LinkedIn", icon: "linkedin", link: "#" }
+                ]
+            },
+            4: {
+                name: "Sumit Kumar Rout",
+                role: "Web Development Lead",
+                image: "sumit.jpeg",
+                description: "Sumit develops and maintains the FESTRONIX website, registration portal, and all online platforms. He ensures seamless user experience and implements all technical features for the event. As an expert in both frontend and backend web technologies, Sumit has created a robust and user-friendly digital infrastructure that handles thousands of registrations smoothly.",
+                social: [
+                    { platform: "GitHub", icon: "github", link: "#" },
+                    { platform: "Website", icon: "globe", link: "#" },
+                    { platform: "Email", icon: "envelope", link: "#" }
+                ]
+            },
+            5: {
+                name: "Karan Verma",
+                role: "Robotics Lead",
+                image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+                description: "Karan manages all robotics competitions, workshops, and technical demonstrations for FESTRONIX 2.0. He coordinates with robotics clubs and ensures all technical setups are properly implemented. With expertise in embedded systems and automation, Karan has designed innovative robotics challenges that attract participants from across the country.",
+                social: [
+                    { platform: "LinkedIn", icon: "linkedin", link: "#" },
+                    { platform: "YouTube", icon: "youtube", link: "#" },
+                    { platform: "Email", icon: "envelope", link: "#" }
+                ]
+            },
+            6: {
+                name: "Sneha Reddy",
+                role: "AI/ML Coordinator",
+                image: "https://images.unsplash.com/photo-1507591064344-4c6ce005-128?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80",
+                description: "Sneha coordinates all AI/ML workshops, hackathons, and technical sessions for FESTRONIX 2.0 participants. She manages AI-related events and ensures proper technical infrastructure for machine learning competitions. As an expert in data science and neural networks, Sneha has created cutting-edge AI challenges that push the boundaries of innovation.",
+                social: [
+                    { platform: "Kaggle", icon: "kaggle", link: "#" },
+                    { platform: "GitHub", icon: "github", link: "#" },
+                    { platform: "Email", icon: "envelope", link: "#" }
+                ]
+            }
+        };
+
+        // Function to show team member modal
+        function showTeamMember(memberId) {
+            const member = teamMembers[memberId];
+            if (!member) return;
+
+            // Set modal content
+            modalName.textContent = member.name;
+            modalRole.textContent = member.role;
+            modalDescription.textContent = member.description;
+            
+            // Set modal image
+            modalImage.innerHTML = `<img src="${member.image}" alt="${member.name}">`;
+            
+            // Set social links
+            modalSocial.innerHTML = '';
+            member.social.forEach(social => {
+                const socialLink = document.createElement('a');
+                socialLink.href = social.link;
+                socialLink.className = 'social-link';
+                socialLink.title = social.platform;
+                socialLink.innerHTML = `
+                    <i class="fab fa-${social.icon}"></i>
+                `;
+                modalSocial.appendChild(socialLink);
+            });
+
+            // Show modal
+            teamModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeTeamModal() {
+            teamModal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Add click event to team cards
+        document.querySelectorAll('.team-card-parent').forEach(card => {
+            const memberId = card.getAttribute('data-member');
+            
+            // View more button click
+            const viewMoreBtn = card.querySelector('.view-more-button');
+            if (viewMoreBtn) {
+                viewMoreBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showTeamMember(memberId);
+                });
+            }
+            
+            // Card click (excluding social links)
+            card.addEventListener('click', (e) => {
+                if (!e.target.closest('.team-social') && !e.target.closest('.view-more-button')) {
+                    showTeamMember(memberId);
+                }
+            });
+        });
+
+        // Close modal when clicking close button or outside modal
+        closeModalBtn.addEventListener('click', closeTeamModal);
+        teamModal.addEventListener('click', (e) => {
+            if (e.target === teamModal) {
+                closeTeamModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && teamModal.classList.contains('active')) {
+                closeTeamModal();
+            }
+        });
+
+        // Team application function
+        function openTeamApplication() {
+            alert('Team applications for FESTRONIX 3.0 will open in December 2024. Please check back later or contact the current team leads.');
+        }
+
+        // Back to top button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.pageYOffset > 300) {
+                        backToTopBtn.style.display = 'flex';
+                    } else {
+                        backToTopBtn.style.display = 'none';
+                    }
+                });
+                
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({ 
+                        top: 0, 
+                        behavior: 'smooth' 
+                    });
+                });
+            }
+        });
+
+        // Initialize sticky navigation when DOM is ready
+        $(document).ready(function() {
+            new StickyNavigation();
+            
+            // Add active class styling
+            $('<style>').text(`
+                .et-hero-tab.active {
+                    color: #ffcc33 !important;
+                    background: rgba(255, 71, 51, 0.25) !important;
+                }
+                .et-hero-tab.active:before {
+                    width: 80% !important;
+                }
+            `).appendTo('head');
+            
+            // Handle touch devices
+            if ('ontouchstart' in window) {
+                document.querySelectorAll('.cursor, .cursor-dot').forEach(el => {
+                    el.style.display = 'none';
+                });
+            }
+        });
+
+        // Mobile Menu Functionality
+        function initMobileMenu() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const overlay = document.getElementById('mobileNavOverlay');
+            const closeBtn = document.getElementById('mobileCloseBtn');
+            
+            const toggleMenu = () => {
+                overlay.classList.toggle('active');
+                document.body.style.overflow = overlay.classList.contains('active') ? 'hidden' : '';
+            };
+            
+            btn.addEventListener('click', toggleMenu);
+            closeBtn.addEventListener('click', toggleMenu);
+            
+            // Close menu when clicking on overlay (outside container)
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    toggleMenu();
+                }
+            });
+            
+            // Close menu when clicking on nav items
+            const navItems = document.querySelectorAll('.mobile-nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', toggleMenu);
+            });
+        }
+
+        // User Authentication Functions
+        function updateUserAuthDisplay() {
+            const container = document.getElementById('userAuthContainer');
+            const mobileAuth = document.getElementById('mobileAuthButtons');
+            const mobileUserName = document.getElementById('mobileUserName');
+            const mobileUserEmail = document.getElementById('mobileUserEmail');
+            
+            const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+            const user = isLoggedIn ? JSON.parse(localStorage.getItem('userData') || '{}') : null;
+            
+            // Desktop version
+            if (isLoggedIn && user) {
+                container.innerHTML = `
+                    <a class="user-auth-btn" id="userAuthBtn" href="profile.html">
+                        <i class="fas fa-user"></i>
+                        <span>${user.firstName || 'User'}</span>
+                    </a>
+                `;
+                
+                // Mobile version
+                mobileAuth.innerHTML = `
+                    <a href="profile.html" class="mobile-profile-btn">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                    <a href="#" class="mobile-login-btn" id="logoutBtn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                `;
+                
+                mobileUserName.innerText = user.firstName || 'User';
+                mobileUserEmail.innerText = user.email || '';
+            } else {
+                container.innerHTML = `
+                    <a class="user-auth-btn" href="signup.html">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Signup</span>
+                    </a>
+                `;
+                
+                mobileAuth.innerHTML = `
+                    <a href="login.html" class="mobile-login-btn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="signup.html" class="mobile-signup-btn">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Sign Up</span>
+                    </a>
+                `;
+                
+                mobileUserName.innerText = 'Guest';
+                mobileUserEmail.innerText = 'Not logged in';
+            }
+            
+            // Add logout functionality
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('userData');
+                    updateUserAuthDisplay();
+                    location.reload();
+                });
+            }
+        }
+
+        // Set active navigation item based on current page
+        function setActiveNavItem() {
+            const currentPage = window.location.pathname.split('/').pop() || 'team.html';
+            const navLinks = document.querySelectorAll('.et-hero-tab');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+
+        // Initialize all functions when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize mobile menu
+            initMobileMenu();
+            
+            // Initialize user authentication display
+            updateUserAuthDisplay();
+            
+            // Set active navigation item
+            setActiveNavItem();
+            
+            // Hide cursor on touch devices
+            if ('ontouchstart' in window) {
+                document.querySelectorAll('.cursor, .cursor-dot').forEach(el => {
+                    el.style.display = 'none';
+                });
+                document.body.style.cursor = 'auto';
+            }
+        });
+
+        // Prevent zoom on double tap for mobile
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
